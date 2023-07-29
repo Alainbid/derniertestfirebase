@@ -16,12 +16,13 @@ import { useEffect, useState } from "react";
 // function App() {
 
 const App = () => {
-  const [setDepenses] = useState([]);
+  const [Depenses,setDepenses] = useState([]);
   const depensesCollectionRef = collection(db, "depenses");
 
   useEffect(() => {
     getDepenses();
-  });
+  },);
+
 
   const getDepenses = async () => {
     try {
@@ -29,10 +30,13 @@ const App = () => {
         query(depensesCollectionRef, orderBy("nature"))
       );
      setDepenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      console.log(data.docs);
+      console.log("data.docs",data.docs);
+      console.log("depenses", Depenses);
     } catch (error) {
     console.log  ("Erreur du query", alert(error));
     }
+  }  
+  
 
     return (
       <div className="App">
@@ -47,12 +51,12 @@ const App = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            Learn React yet
           </a>
         </header>
       </div>
     );
   };
-};
+
 
 export default App;
