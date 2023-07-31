@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { db } from "./Firebasefirestore";
 import Modale from "../components/Modale.jsx";
 import '../styles/depenses.scss';
+import Navbar from '../components/Navbar';
 import {
   doc,
   addDoc,
@@ -69,7 +70,7 @@ const Depenses = () => {
 
   return (
     <div>
-      {/* <Navbar></Navbar> */}
+      <Navbar></Navbar>
 
       <Modale
         open={showModal}
