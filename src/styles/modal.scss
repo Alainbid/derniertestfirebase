@@ -1,0 +1,82 @@
+
+
+.modal-overlay {
+  z-index: 1100;
+  position: fixed;
+  top: 212px;
+  left: 36vw;
+  width: 504px;
+  height: 266px;
+  background: rgb(125, 131, 154);
+  display: flex;
+  padding: 8px;
+  border: solid 1px white;
+  border-radius: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  border-radius: 16px;
+  background: rgb(64, 70, 94);
+  align-items: center;
+  height: 95%;
+}
+.modal-tittle{
+  padding:16px;
+  background: rgb(64,70,94);
+}
+.modal-header,
+.modal-footer {
+  color: wheat;
+  background: rgb(64, 70, 94);
+ 
+}
+.modal-header{
+  
+  padding: 11px;
+
+}
+
+.modal-body { 
+  margin-bottom: 20px;
+  width: 95%;
+  /* display: flex; */
+  background: rgb(64, 70, 94);
+  /* padding: 6px; */
+  height: 87px;
+  /* flex-direction: row; */
+  /* justify-content: space-between; */
+  align-items: center;
+  color: wheat;
+}
+.modal-footer{
+  font-size: 0.7rem;
+
+}
+input{
+  font-weight: 600;
+  padding-left: 10px;
+  background: rgb(217, 226, 248);
+  font-size: 1.5rem;
+}
+button{
+  margin: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: rgb(217, 226, 248);
+  color: black;
+  border-radius: 12px;
+ 
+}
+button:hover{
+  cursor: pointer;
+    background: rgb(165, 188, 220);
+    color :rgb(80, 8, 8);
+    font-size: 1rem;
+  }
