@@ -22,19 +22,19 @@ const Navbarre = () => {
    
         {/* <NavLink to="/Pointage" className="navlk">
           Pointage
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/Rechercher" className="navlk">
           Rechercher
-        </NavLink> */}
+        </NavLink>
         {/* <NavLink to="/Test" className="navlk">
           Test
         </NavLink> */}
         <NavLink to="/Depenses" className="navlk">
           Dépenses
         </NavLink>
-        {/* <NavLink to="/Beneficiaires" className="navlk">
+        <NavLink to="/Fournisseurs" className="navlk">
          Fournisseurs
-        </NavLink> */}
+        </NavLink>
        
       </div>
     </div>

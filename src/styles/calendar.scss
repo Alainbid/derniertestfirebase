@@ -1,0 +1,131 @@
+#btn-valid{
+  font-size: 1.5rem;
+  display: flex;
+  margin: auto;
+  background-color: #c4b08d;
+  border-radius: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  box-shadow: beige;
+  border: none;
+}
+
+.elegant-calencar {
+z-index: 1000;
+background: #c8d4cb;
+width: 20em;
+height: 20em;
+box-shadow: 9px 7px 10px 1px #7a7979;
+text-align: center;
+margin: 4em auto;
+border:none;
+border-radius: 40px;
+font-size: 1.3rem;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.clearfix {
+display: inline-flex;
+margin-top: 1.5rem;
+}
+
+.pre-button0,
+.next-button0 {
+font-weight: bold;
+background: #c8d4cb;
+color: #f00505;
+font-size: 2rem;
+padding: 8px;
+cursor: pointer;
+transition: transform 0.5s;
+}
+
+.head-month {
+font-weight: 600;
+background: #c8d4cb;
+color: #023812;
+font-size: 2rem;
+padding: 9px;
+
+}
+
+
+.pre-button:hover,
+.next-button:hover {
+-webkit-transform: rotate(360deg);
+-ms-transform: rotate(360deg);
+transform: rotate(360deg);
+}
+
+.pre-button:active,.next-button:active{
+   -webkit-transform: scale(0.7);
+   -ms-transform: scale(0.7);
+   transform: scale(0.7);
+}
+
+
+#calendar{
+margin-top: 3rem;
+display: inline-block;
+background-color: #c8d4cb;
+}
+
+
+#calendar tr {
+  background: #c8d4cb;
+   height: 1.5em;
+   
+}
+
+.tr-cal th{
+
+font-weight: 600;
+font-size: 1.5rem;
+background: #c8d4cb;
+color: #023812;
+padding-bottom: 1rem;
+}
+
+
+.tb-cal td{
+   width: 14%;
+   border-radius:0;
+   cursor: pointer;
+   -webkit-transition:all 0.2s ease-in;
+   transition:all 0.2s ease-in;
+}
+
+.tb-cal :hover{
+cursor: pointer;
+}
+
+tbody td:active {
+   -webkit-transform: scale(0.7);
+   -ms-transform: scale(0.7);
+   transform: scale(0.7);
+}
+
+#selected{
+  color: #fff;
+  background-color: #023812;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+#today {
+   background-color: #5d7c6d4a;
+   color: #000000;
+  //  font-family: serif;
+   font-style: bold;
+    border-radius: 50%;
+}
+
+#disabled {
+cursor: default;
+background: #c8d4cb;
+}
