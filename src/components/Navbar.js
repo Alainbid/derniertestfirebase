@@ -20,9 +20,9 @@ const Navbarre = () => {
           Sign_UP
         </NavLink> */}
    
-        {/* <NavLink to="/Pointage" className="navlk">
+        <NavLink to="/Pointage" className="navlk">
           Pointage
-        </NavLink> */}
+        </NavLink>
         <NavLink to="/Rechercher" className="navlk">
           Rechercher
         </NavLink>
