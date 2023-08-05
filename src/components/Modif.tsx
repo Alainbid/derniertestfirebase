@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../pages/Firebasefirestore";
 import "../styles/modif.scss";
@@ -25,11 +25,9 @@ const Modif = (props: any) => {
   // const lequel:string = props.openModif;
   // console.log("lequel props ", lequel);
 
-  useEffect(() => {
-    getDocument();
-  }, [props.openModif]);
 
-  const getDocument = async () => {
+
+  const getDocument = useCallback( async () => {
     if (props.openModif !== "x") {
       console.log("getdoc", props.openModif);
 
@@ -50,7 +48,11 @@ const Modif = (props: any) => {
         alert("document inconnu");
       }
     }
-  };
+  },[docRef,props.openModif]);
+
+    useEffect(() => {
+    getDocument();
+  }, [getDocument]);
 
   const modifBanque = async (e: any) => {
     let x = e.target.value.toUpperCase();

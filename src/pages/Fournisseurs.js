@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../styles/depenses.scss";
 
@@ -24,16 +24,17 @@ const SnapshotBenefs = () => {
 
   const benefsCollectionRef = collection(db, "benef");
 
-  useEffect(() => {
-    getBenefs();
-  });
+ 
 
-  const getBenefs = async () => {
+  const getBenefs = useCallback( async () => {
     const data = await getDocs(query(benefsCollectionRef, orderBy("qui")));
     setBenefs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     //  console.log(data.docs);
-  };
+  },[benefsCollectionRef]);
 
+  useEffect(() => {
+    getBenefs();
+  },[getBenefs]);
   //**********  MODIFIER ********** */
   const modifier = async (x) => {
     const data = { qui: "?" };

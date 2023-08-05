@@ -1,4 +1,4 @@
-import React , { useState, useEffect }from 'react';
+import React , { useState, useEffect, useCallback }from 'react';
 import "../styles/listedepenses.scss";
 import PropTypes from "prop-types";
 import { db } from "../pages/Firebasefirestore";
@@ -14,15 +14,15 @@ import {
   const [Depenses, setDepenses] = useState([]);
   const depensesCollectionRef = collection(db, "depenses");
 
-  useEffect(() => {
-    getDepenses();
-  }, []);
-
-  const getDepenses = async () => {
+  const getDepenses = useCallback( async () => {
     const data = await getDocs(query(depensesCollectionRef, orderBy("nature")));
     setDepenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     //  console.log(data.docs);
-  };
+  },[depensesCollectionRef]);
+
+  useEffect(() => {
+    getDepenses();
+  }, [getDepenses]);
 
   if (!props.open) return null;
   return (

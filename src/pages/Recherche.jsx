@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import "../styles/recherche.scss";
 // import "../styles/togglebtn.scss";
 import Navbarre from "../components/Navbar";
@@ -46,7 +46,7 @@ const Recherche = () => {
 
 
   /************* getJournal ********** */
-  const getJournal = async () => {
+  const getJournal = useCallback( async () => {
     let conditions = [];
     if (banque !== "all") conditions.push(where("banque", "==", banque));
 
@@ -85,13 +85,13 @@ const Recherche = () => {
     } catch (error) {
       console.log("Erreur du query ", alert(error));
     }
-  };
+  },[banque,debut,fin,pointe,menage,nature,somme,note]);
 
   //******************USEEFFECT ***************************/
 
   useEffect(() => {
     getJournal();
-  },[modifLequel]);
+  },[getJournal]);
 
   const modifBanque = () => {
     let bso = checkBou.current.checked;

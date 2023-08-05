@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../styles/calendar.scss";
 
 
@@ -43,6 +43,13 @@ const Calendar = (
   
 //if(!open) return null;
 
+
+  
+const onValid = useCallback( (d:number) => {
+  sendData(year, month, d);
+  document.getElementById('calencar')!!.style.display="none";
+},[month,sendData,year]);
+
   useEffect(() => {
     for (let k = 0; k < 42; k++) {
       days[k].innerHTML = "";
@@ -76,7 +83,7 @@ const Calendar = (
       }
     }
 
-  },[year, month, startDay, days, nDays, day]);
+  },[year, month, startDay, days, nDays, day,onValid]);
 
 const voirCalendar = (open:boolean) => {
   //console.log("open",open);
@@ -102,11 +109,7 @@ const voirCalendar = (open:boolean) => {
       setMonth(month + 1);
     }
   };
-   
-  const onValid = (d:number) => {
-    sendData(year, month, d);
-    document.getElementById('calencar')!!.style.display="none";
-  };
+ 
 
   return (
     <div id="dbut" >
