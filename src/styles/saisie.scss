@@ -1,64 +1,65 @@
-
-#h1-saisie{
-  display:flex;
+#h1-saisie {
+  color: #c4b08d;
+  font-weight: 400;
+  font-size: 3rem;
+  display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#saisie-container  {
+#saisie-container {
   width: 700px;
   background: rgb(134, 131, 125);
-  display:none;
-  margin:auto;
- 
+  display: none;
+  margin: auto;
   border-radius: 60px;
 }
 
-
-
-.form-container  {
+.form-container {
   background: rgb(134, 131, 125);
-    width: 588px;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
+  width: 588px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
 }
 
-.fdset-saisie{
-  margin-top: 10px;
-  background: #c4b08d;
+.fdset-saisie {
+  border: none;
+  margin-top: 3px;
+  background: #86837d;
 }
-.saisie-radio{
+.saisie-radio {
+  margin-right: 5px;
+  margin-left: 5px;
+  width: 124px;
   background: #c4b08d;
   font-size: 1.5rem;
-  padding: 10px;
+  padding: 6px;
   border-radius: 20px;
   color: #4d3413;
   font-weight: 600;
 }
 
-.date-saisie{
+.date-saisie {
   font-weight: 600;
   font-size: 1.2rem;
   color: #4d3413;
   background: #86837d;
 }
 
-
-
-
-.mode-container, .banque-container , .budget-container ,.btn-fin {
+.mode-container,
+.banque-container,
+.budget-container,
+.btn-fin {
   background: #86837d;
   padding: 10px;
   /* margin-left: 8px; */
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  
 }
 
-
-.detail-container{
+.detail-container {
   margin-top: 20px;
   align-self: center;
   display: flex;
@@ -67,13 +68,13 @@
   background: #86837d;
 }
 
-.label-saisie{
+.label-saisie {
   background: #86837d;
   font-size: 1.2rem;
   color: #4d3413;
   font-weight: 600;
 }
-.input-saisie   {  
+.input-saisie {
   font-size: 1.5rem;
   border-radius: 20px;
   border: none;
@@ -84,18 +85,20 @@
   margin-left: 5px;
 }
 
-
-.btn-fin{
+.btn-fin {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-left: 221px;
 }
 
-
-
-
-
-
-
-
+.btn-last {
+  width: 116px;
+  padding: 8px;
+  margin: 8px;
+  font-size: 1.4rem;
+  font-weight: 400;
+  background: rgb(217, 226, 248);
+  color: #4d3413;
+  border-radius: 36px;
+}

@@ -210,10 +210,10 @@ function Saisie() {
           </p>
           <span className="btn-fin">
             {" "}
-            <button type="submit" className="btn btn-success">
+            <button type="submit" className="btn btn-last">
               Valider
             </button>
-            <button onClick={annuler} className="btn btn-warning">
+            <button onClick={annuler} className="btn btn-last">
               Annuler
             </button>
           </span>

@@ -22,15 +22,15 @@ const Calendar = (
   const [day] = useState(() => today!!.getDate());
 
   const monthTag = [
-    "Jan",
+    "Janv",
     "Fev",
-    "Mar",
+    "Mars",
     "Avr",
     "Mai",
     "Jun",
     "Jul",
-    "Aou",
-    "Sep",
+    "Août",
+    "Sept",
     "Oct",
     "Nov",
     "Dec",
