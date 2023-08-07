@@ -47,7 +47,8 @@ const Calendar = (
   
 const onValid = useCallback( (d:number) => {
   sendData(year, month, d);
-  document.getElementById('calencar')!!.style.display="none";
+  // document.getElementById('calencar')!!.style.display="none";
+  //voirCalendar(false)
 },[month,sendData,year]);
 
   useEffect(() => {
@@ -75,10 +76,8 @@ const onValid = useCallback( (d:number) => {
         days[day + s].id = "selected";
 
         days[j].addEventListener("click", () => {
-          days[j].id = "idselected"
-          let x = parseInt (document.getElementById('idselected')!!.innerHTML , 10);
-          //  console.log("day",x);
-           onValid(x);
+          //console.log("days[j]",j-1);
+          onValid(j-1);
         });
       }
     }

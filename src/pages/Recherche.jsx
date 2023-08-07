@@ -139,6 +139,7 @@ const Recherche = () => {
     // console.log("d", d);
     setDebut(val);
     document.getElementById("d-debut").value = d;
+    setShowCalendar(false)
   };
 
   const selectionne = (doc) => {

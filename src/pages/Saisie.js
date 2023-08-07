@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbarre from "../components/Navbar";
 import Calendar from "../components/Calendar.tsx";
 import "../styles/saisie.scss";
 import { db } from "../pages/Firebasefirestore";
 import { collection, addDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
+import ListeDepenses from "../components/Listedepenses"
 
 function Saisie() {
   const journalCollectionRef = collection(db, "cfbjournal");
@@ -16,9 +17,17 @@ function Saisie() {
   const [navHidden, setNavHidden] = useState(true);
   const { register, handleSubmit } = useForm();
   const [showCalendar, setShowCalendar] = useState(true);
+  const [listDepPosition, setListDepBenPosition] = useState([0, 0]);
+  const [showListdepbenef, setShowListdepbenef] = useState("");
+  const [natureDepense, setNatureDepense] = useState("");
+  const [quiBenef, setQuiBenef] = useState("");
 
-  const onSubmit = (data) => {
+
+
+  const onSubmit = async(data) => {
+    console.log("somme",somme);
     if (somme !== "") {
+      
       data.new = false;
       data.numero = "";
       data.somme = somme;
@@ -28,8 +37,11 @@ function Saisie() {
       data.temps = temps;
       data.pointe = false;
       data.date = temps;
-      console.log("data", data);
-      addDoc(journalCollectionRef, data);
+      data.nature = natureDepense;
+      data.benef = quiBenef;
+  
+     await addDoc(journalCollectionRef, data);
+          console.log("data", data);
     }
     annuler();
   };
@@ -53,8 +65,6 @@ function Saisie() {
     document.getElementById("saisie-container").style.display = "revert";
     setNavHidden(false);
     let val = new Date(year, month, day).getTime();
-    // const d = new Date(val).toLocaleDateString("fr-FR");
-    // console.log("d", d);
     setTemps(val);
     setShowCalendar(false);
   };
@@ -63,12 +73,35 @@ function Saisie() {
     window.location.reload(true);
   };
 
+  
+  const choixDepBenef = useCallback(() => {
+    document.getElementById("nature").value = natureDepense;
+    document.getElementById("benef").value = quiBenef;
+  },[natureDepense,quiBenef]);
+
+  useEffect(() => {
+    choixDepBenef();
+  }, [choixDepBenef]);
+
+
   return (
     <div id="app">
       {navHidden ? <Navbarre></Navbarre> : null}
 
       <h1 id="h1-saisie">Saisie d&apos;écritures</h1>
       {showCalendar && <Calendar id="calencar" sendData={getData} />}
+      <ListeDepenses
+        open={showListdepbenef}
+        onValider={(x,qui) => {
+          (qui === "benef") ? setQuiBenef(x) : setNatureDepense(x) ;
+           console.log("x",x);
+        }}
+        onClose={() => {
+          setShowListdepbenef('');
+        }}
+        posdex={listDepPosition[0]}
+        posdey={listDepPosition[1]}
+      ></ListeDepenses>
       <div id="saisie-container">
         <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fdset-saisie" {...register("banque")}>
@@ -162,10 +195,17 @@ function Saisie() {
             <label className="label-saisie">
               Dépense
               <input
+            
                 className="input-saisie"
-                {...register("nature")}
+               // {...register("nature")}
                 type="text"
                 id="nature"
+                onClick={(event) => {
+                 
+                  event.preventDefault();
+                  setListDepBenPosition([event.clientX, event.clientY-200]);
+                  setShowListdepbenef('depense');
+                }}
               ></input>
             </label>
 
@@ -176,7 +216,11 @@ function Saisie() {
                 {...register("benef")}
                 type="text"
                 id="benef"
-                // required={true}
+                onClick={(event) => {
+                  event.preventDefault();
+                  setListDepBenPosition([event.clientX, event.clientY-250]);
+                  setShowListdepbenef('benef');
+                }}
               ></input>
             </label>
 

@@ -1,31 +1,32 @@
-#btn-valid{
-  font-size: 1.5rem;
-  display: flex;
-  margin: auto;
-  background-color: #c4b08d;
-  border-radius: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  box-shadow: beige;
-  border: none;
-}
+// #btn-valid{
+//   font-size: 1.5rem;
+//   display: flex;
+//   margin: auto;
+//   background-color: #c4b08d;
+//   border-radius: 20px;
+//   padding-left: 20px;
+//   padding-right: 20px;
+//   padding-top: 8px;
+//   padding-bottom: 8px;
+//   box-shadow: beige;
+//   border: none;
+// }
 
 .elegant-calencar {
-z-index: 1000;
-background: #c8d4cb;
-width: 20em;
-height: 20em;
-box-shadow: 9px 7px 10px 1px #7a7979;
-text-align: center;
-margin: 4em auto;
-border:none;
-border-radius: 40px;
-font-size: 1.3rem;
-display: flex;
-flex-direction: column;
-align-items: center;
+   margin: auto;
+   z-index: 1000;
+   background: #c8d4cb;
+   width: 19em;
+   height: 19em;
+   box-shadow: 9px 7px 10px 1px #546256;
+   text-align: center;
+   /* margin: 0em auto; */
+   border: none;
+   border-radius: 40px;
+   font-size: 1.3rem;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
 
 .clearfix {
@@ -35,13 +36,13 @@ margin-top: 1.5rem;
 
 .pre-button0,
 .next-button0 {
-font-weight: bold;
-background: #c8d4cb;
-color: #f00505;
-font-size: 2rem;
-padding: 8px;
-cursor: pointer;
-transition: transform 0.5s;
+   font-weight: bold;
+   background: #c8d4cb;
+   color: #023812;
+   font-size: 2rem;
+   padding: 8px;
+   cursor: pointer;
+   transition: transform 0.5s;
 }
 
 .head-month {
@@ -69,7 +70,6 @@ transform: rotate(360deg);
 
 
 #calendar{
-margin-top: 3rem;
 display: inline-block;
 background-color: #c8d4cb;
 }
