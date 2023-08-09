@@ -19,6 +19,7 @@ import {
   endAt,
   startAt,
 } from "firebase/firestore";
+import { listCiphers } from "crypto-browserify";
 
 //console.log("journalCollectionRef.", journalCollectionRef.type);
 
@@ -64,7 +65,7 @@ const Recherche = () => {
 
     conditions.push(endAt(debut));
     conditions.push(startAt(fin)); //31/12/2050
-    conditions.push(limit(10));
+    conditions.push(limit(100));
 
     //************  QUERY ******************************/
 
@@ -79,7 +80,7 @@ const Recherche = () => {
       setLetotal(parseFloat(total / 100));
       setLaListe(data.docs.map((ledoc) => ({ ...ledoc.data(), id: ledoc.id })));
 
-      console.log("data", data.docs);
+      console.log("nombre de data", data.docs.length);
     } catch (error) {
       console.log("Erreur du query ", alert(error));
     }
@@ -129,13 +130,17 @@ const Recherche = () => {
   };
 
   const getData = (year, month, day) => {
+    console.log(year, month, day);
+    console.log(year, month, day);
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
     // document.getElementById("recherche-ligne").style.display = "revert";
     let val = new Date(year, month, day).getTime();
-    const d = new Date(val).toLocaleDateString("fr-FR");
-    // console.log("d", d);
+    let d = new Date(val).toLocaleDateString("fr-FR");
     setDebut(val);
+    console.log(("debut", debut));
+    let d0 = new Date(debut).toLocaleDateString("fr-FR");
+    if (d === "Invalid Date") { d = d0; } //quand on refait une recherche après modif
     document.getElementById("d-debut").value = d;
     setShowCalendar(false);
   };
@@ -157,7 +162,11 @@ const Recherche = () => {
 
       <Modif
         openModif={modifLequel}
-        onCloseModif={() =>   setModifLequel("x")}
+        onCloseModif={() => {
+          setModifLequel("x");
+          getData();
+        }}
+        // onCloseModif={() =>   }
       ></Modif>
 
       <div id="depuis-container">
@@ -280,11 +289,10 @@ const Recherche = () => {
             <button
               className="annule"
               onClick={() => {
-                console.log("clic", showCalendar, showNavbar);
-                if (showCalendar && showNavbar) window.location.reload(true);
+                if (!showCalendar && showNavbar) window.location.reload(true);
               }}
             >
-              Annuler
+              X
             </button>
           </span>
         </div>
@@ -325,18 +333,12 @@ const Recherche = () => {
             {laListe.map((undoc, index) => {
               return (
                 <tr
-                  onClick={(event) => {
+                  onDoubleClick={(event) => {
                     event.preventDefault();
                     selectionne(undoc);
-                    //setModifLequel(undoc);
                   }}
                   className="tr-ligne"
                   key={undoc.id}
-                  // style={
-                  //   isActive === index
-                  //     ?  { background: "yellow"}
-                  //     : { background: "green" }
-                  // }
                 >
                   <td style={{ width: 2 + "em" }}>{index + 1}</td>
                   <td style={{ width: 6 + "em" }}>{undoc.banque}</td>
