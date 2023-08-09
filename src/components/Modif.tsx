@@ -58,6 +58,7 @@ const Modif = (props: any) => {
     let x = e.target.value.toUpperCase();
     await setBanque(x);
     await updateDoc(docRef, { banque: x });
+    
     msg();
   };
 
@@ -65,6 +66,7 @@ const Modif = (props: any) => {
     setSomme(e.target.value);
     await updateDoc(docRef, { somme: e.target.value });
     msg();
+    
   };
 
   const modifNature = async (e: any) => {
@@ -128,7 +130,8 @@ const Modif = (props: any) => {
   return (
     <div>
       <ListeDepenses
-        open={showListDepenses}
+        //  open={showListDepenses}
+        open={''}
         onClose={() => {
           setShowListDepenses(false);
         }}
@@ -177,7 +180,7 @@ const Modif = (props: any) => {
               className="modif-saisie"
               onClick={(event) => {
                 setListPosition([event.clientX - 200, event.clientY - 270]);
-                setShowListDepenses(true);
+                setShowListDepenses(false);
               }}
               onChange={(event) => {
                 

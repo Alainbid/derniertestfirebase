@@ -15,22 +15,22 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-
 const Pointage = () => {
   const [laListe, setLaListe] = useState([{}]);
   const [banque, setBanque] = useState("");
   const [letotal, setLeTotal] = useState(0.0);
- 
 
-  const getJournal =  useCallback(async()   => {
+  const getJournal = useCallback(async () => {
     let conditions = [];
-    if(banque != null) { conditions.push(where("banque", "==", banque))};
+    if (banque != null) {
+      conditions.push(where("banque", "==", banque));
+    }
     conditions.push(where("pointe", "==", false));
     conditions.push(orderBy("date", "desc"));
     let lequery = query(collection(db, "cfbjournal"), ...conditions);
     try {
       const data = await getDocs(lequery);
-      console.log("data",data.docs);
+      console.log("data", data.docs);
       var total = 0;
       data.forEach((element) => {
         total += element.data().somme;
@@ -41,12 +41,11 @@ const Pointage = () => {
     } catch (error) {
       console.log(alert(error));
     }
-  },[banque]);
+  }, [banque]);
 
- useEffect(() => {
-  getJournal();
-  },[getJournal]);
-
+  useEffect(() => {
+    getJournal();
+  }, [getJournal]);
 
   const updatePointage = async (id) => {
     const docRef = doc(db, "cfbjournal", id);
@@ -55,7 +54,7 @@ const Pointage = () => {
     if (docSnap.exists()) {
       //majour du champ pointe sur true
       await updateDoc(docRef, { pointe: true });
-      console.log("pointé", id);
+      // console.log("pointé", id);
       getJournal();
     } else {
       console.log("No such document!");
@@ -63,18 +62,17 @@ const Pointage = () => {
   };
 
   const conformer = (vam) => {
-   // console.log("vam",vam);
-   if(vam === undefined) return null;
-    return vam.toFixed(2);
+    // console.log("vam",vam);
+    if (vam === undefined) return null;
+    let x = parseFloat(vam);
+    let z = x.toFixed(2);
+    return z;
   };
 
   const modifBanque = (e) => {
-   if((e.target.id === "BOURSO") && e.target.checked )
-      setBanque("BOURSO");
-   if((e.target.id === "BBVA") && e.target.checked )
-      setBanque("BBVA");
+    if (e.target.id === "BOURSO" && e.target.checked) setBanque("BOURSO");
+    if (e.target.id === "BBVA" && e.target.checked) setBanque("BBVA");
   };
-
 
   return (
     <div>
@@ -86,8 +84,8 @@ const Pointage = () => {
             id="BOURSO"
             value="BOURSO"
             type="radio"
-             onChange={modifBanque}
-             checked={banque === "BOURSO"}
+            onChange={modifBanque}
+            checked={banque === "BOURSO"}
           ></input>
           BOURSO
         </label>
@@ -97,16 +95,16 @@ const Pointage = () => {
             id="BBVA"
             value="BBVA"
             type="radio"
-             onChange={modifBanque}
-             checked={banque === "BBVA"}
-           
+            onChange={modifBanque}
+            checked={banque === "BBVA"}
           ></input>
           BBVA
         </label>
       </div>
 
       <i className="pt-total" style={{ textJustify: "center" }}>
-        Pour pointer faire : Double-click sur le &quot;?&quot; de la colonne Montant
+        Pour pointer faire : Double-click sur le &quot;?&quot; de la colonne
+        Montant
       </i>
 
       <div>
@@ -131,18 +129,34 @@ const Pointage = () => {
             {laListe.map((undoc, index) => {
               return (
                 <tr id="tr-pointage" key={undoc.id}>
-                  <td id='td-l-point'  style={{ width: 2 + "em",background: "#69c88210" }}>{index + 1}</td>
-                  <td id='td-l-point'  style={{ width: 6 + "em",background: "#69c88210" }}>{undoc.banque}</td>
-                  <td id='td-l-point'  style={{ width: 11 + "em",background: "#69c88210" }}>
+                  <td
+                    id="td-l-point"
+                    style={{ width: 2 + "em", background: "#69c88210" }}
+                  >
+                    {index + 1}
+                  </td>
+                  <td
+                    id="td-l-point"
+                    style={{ width: 6 + "em", background: "#69c88210" }}
+                  >
+                    {undoc.banque}
+                  </td>
+                  <td
+                    id="td-l-point"
+                    style={{ width: 11 + "em", background: "#69c88210" }}
+                  >
                     {new Date(undoc.temps).toLocaleDateString()}
                   </td>
-                  <td id='td-l-point'  style={{ width: 2.5 + "em",background: "#69c88210" }}>
+                  <td
+                    id="td-l-point"
+                    style={{ width: 2.5 + "em", background: "#69c88210" }}
+                  >
                     {undoc.menage === true ? " M" : " "}{" "}
                   </td>
 
-                  <td id='td-l-pointeur' 
-                  onDoubleClick={(e) => {
-
+                  <td
+                    id="td-l-pointeur"
+                    onDoubleClick={(e) => {
                       e.preventDefault();
                       updatePointage(undoc.id);
                     }}
@@ -150,13 +164,17 @@ const Pointage = () => {
                       width: 10 + "em",
                       textAlign: "right",
                       color: undoc.somme < 0 ? "red" : "green",
-                      background: "#69c88210"
+                      background: "#69c88210",
                     }}
                   >
                     {conformer(undoc.somme)}
                   </td>
-                  <td id='td-l-point'  style={{ width: 1 + "em" ,background: "#69c88210"}}></td>
-                  <td id='td-l-point' 
+                  <td
+                    id="td-l-point"
+                    style={{ width: 1 + "em", background: "#69c88210" }}
+                  ></td>
+                  <td
+                    id="td-l-point"
                     style={{
                       width: 3 + "em",
                       textAlign: "center",
@@ -165,18 +183,42 @@ const Pointage = () => {
                   >
                     {undoc.pointe === false ? "?" : "P"}
                   </td>
-                  <td id='td-l-point'  style={{ width: 1 + "em" ,background: "#69c88210"}}></td>
-                  <td id='td-l-point'  style={{ width: 14 + "em",background: "#69c88210" }}>{undoc.benef} </td>
-                  <td id='td-l-point'  style={{ width: 16 + "em",background: "#69c88210" }}>{undoc.nature} </td>
-                  <td id='td-l-point'  style={{ width: 4 + "em" ,background: "#69c88210"}}>{undoc.mode} </td>
-                  <td id='td-l-point'  style={{ width: 12 + "em",background: "#69c88210" }}>{undoc.note}</td>
+                  <td
+                    id="td-l-point"
+                    style={{ width: 1 + "em", background: "#69c88210" }}
+                  ></td>
+                  <td
+                    id="td-l-point"
+                    style={{ width: 14 + "em", background: "#69c88210" }}
+                  >
+                    {undoc.benef}{" "}
+                  </td>
+                  <td
+                    id="td-l-point"
+                    style={{ width: 16 + "em", background: "#69c88210" }}
+                  >
+                    {undoc.nature}{" "}
+                  </td>
+                  <td
+                    id="td-l-point"
+                    style={{ width: 4 + "em", background: "#69c88210" }}
+                  >
+                    {undoc.mode}{" "}
+                  </td>
+                  <td
+                    id="td-l-point"
+                    style={{ width: 12 + "em", background: "#69c88210" }}
+                  >
+                    {undoc.note}
+                  </td>
                 </tr>
               );
             })}
             <tr>
-              <td id='td-l-point'  style={{ width: 2 + "em" }}></td>
-              <td id='td-l-point'  style={{ width: 6 + "em" }}></td>
-              <td id='td-l-point' 
+              <td id="td-l-point" style={{ width: 2 + "em" }}></td>
+              <td id="td-l-point" style={{ width: 6 + "em" }}></td>
+              <td
+                id="td-l-point"
                 style={{
                   width: 7 + "em",
                   textAlign: "right",
@@ -185,8 +227,11 @@ const Pointage = () => {
               >
                 TOTAL
               </td>
-              <td id='td-l-point' style={{ width: 2.5 + "em" }}> </td>
-              <td id='td-l-point'
+              <td id="td-l-point" style={{ width: 2.5 + "em" }}>
+                {" "}
+              </td>
+              <td
+                id="td-l-point"
                 style={{
                   width: 12 + "em",
                   color: "red",

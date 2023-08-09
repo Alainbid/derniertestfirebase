@@ -43,13 +43,13 @@
   background: #43403d;
 }
 .recherche-form {
-    width: 100%;
-    background-color: #232a30;
-    display: flex;
-    margin-Top: 10px;
-    margin-Bottom: 20px;
-    flex-Direction: column;
-    align-Items: flex-end;
+  width: 100%;
+  background-color: #86837d;
+  display: flex;
+  margin-Top: 10px;
+  margin-Bottom: 20px;
+  flex-Direction: column;
+  align-Items: flex-end;
 }
 .label-saisie{
     padding-right: 31px;
@@ -57,6 +57,7 @@
     color: white;
 }
 .input-recherche{
+  margin-bottom: 5px;
   margin-top: 5px;
   padding-top: 8px;
   padding-bottom: 11px;
@@ -64,12 +65,11 @@
   color: #060606;
   border-radius: 14px;
   border: none;
-  /* padding-block: 8px; */
 }
 
 
 
-#thr-Recherche{
+#tbch-pointage{
   display:none;
 }
 th {
@@ -103,14 +103,21 @@ tr  :hover{
   background-color: #43403d;
 }
 .lancer{
+  color:black;
   background-color: wheat;
   font-size: 1.4rem;
   margin-left: 2px;
   border-radius: 10px;
+  font-weight: 400;
+}
+.lancer :hover{
+  background-color: whitesmoke;
 }
 .annule{
+  color: black;
   background-color: darksalmon;
   font-size: 1.4rem;
   margin-left: 55px;
   border-radius: 10px;
+  font-weight: 400;
 }

@@ -3,7 +3,7 @@ import "../styles/recherche.scss";
 // import "../styles/togglebtn.scss";
 import Navbarre from "../components/Navbar";
 import { db } from "../pages/Firebasefirestore";
-import Calendar from "../components/Calendar.tsx"
+import Calendar from "../components/Calendar.tsx";
 import Modif from "../components/Modif.tsx";
 
 import {
@@ -43,10 +43,8 @@ const Recherche = () => {
   const [modifLequel, setModifLequel] = useState("x");
   const [showNavbar, setShowNavbar] = useState(true);
 
-
-
   /************* getJournal ********** */
-  const getJournal = useCallback( async () => {
+  const getJournal = useCallback(async () => {
     let conditions = [];
     if (banque !== "all") conditions.push(where("banque", "==", banque));
 
@@ -81,17 +79,17 @@ const Recherche = () => {
       setLetotal(parseFloat(total / 100));
       setLaListe(data.docs.map((ledoc) => ({ ...ledoc.data(), id: ledoc.id })));
 
-       console.log("data", data.docs);
+      console.log("data", data.docs);
     } catch (error) {
       console.log("Erreur du query ", alert(error));
     }
-  },[banque,debut,fin,pointe,menage,nature,somme,note]);
+  }, [banque, debut, fin, pointe, menage, nature, somme, note]);
 
   //******************USEEFFECT ***************************/
 
   useEffect(() => {
     getJournal();
-  },[getJournal]);
+  }, [getJournal]);
 
   const modifBanque = () => {
     let bso = checkBou.current.checked;
@@ -133,18 +131,19 @@ const Recherche = () => {
   const getData = (year, month, day) => {
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
-   // document.getElementById("recherche-ligne").style.display = "revert";
+    // document.getElementById("recherche-ligne").style.display = "revert";
     let val = new Date(year, month, day).getTime();
     const d = new Date(val).toLocaleDateString("fr-FR");
     // console.log("d", d);
     setDebut(val);
     document.getElementById("d-debut").value = d;
-    setShowCalendar(false)
+    setShowCalendar(false);
   };
 
   const selectionne = (doc) => {
     setModifLequel(doc.id);
-    console.log("undoc", doc.id);
+
+    //console.log("undoc", doc.id);
     console.log("undoc modiflequel", modifLequel);
   };
 
@@ -158,7 +157,7 @@ const Recherche = () => {
 
       <Modif
         openModif={modifLequel}
-        onCloseModif={() => setModifLequel("x")}
+        onCloseModif={() =>   setModifLequel("x")}
       ></Modif>
 
       <div id="depuis-container">
@@ -228,59 +227,54 @@ const Recherche = () => {
         </div>
 
         <form className="recherche-form">
-          <div>
-            <label className="label-saisie">
-              Montant{" "}
-              <input
-                className="input-recherche"
-                type="number"
-                id="somme"
-                onChange={modifSomme}
-              ></input>
-            </label>
-          </div>
+          <label className="label-saisie">
+            Montant{" "}
+            <input
+              className="input-recherche"
+              type="number"
+              id="somme"
+              onChange={modifSomme}
+            ></input>
+          </label>
 
-          <div className="note-container">
-            <label className="label-saisie">
-              Note{" "}
-              <input
-                className="input-recherche"
-                type="text"
-                id="note"
-                onChange={modifNote}
-              ></input>
-            </label>
-          </div>
+          <label className="label-saisie">
+            Note{" "}
+            <input
+              className="input-recherche"
+              type="text"
+              id="note"
+              onChange={modifNote}
+            ></input>
+          </label>
 
-          <div className="depens-container">
-            <label className="label-saisie">
-              Depense{" "}
-              <input
-                className="input-recherche"
-                type="text"
-                id="depense"
-                onChange={modifDepense}
-              ></input>
-            </label>
-          </div>
+          <label className="label-saisie">
+            Depense{" "}
+            <input
+              className="input-recherche"
+              type="text"
+              id="depense"
+              onChange={modifDepense}
+            ></input>
+          </label>
 
-          <div className="debut-container">
-            <label className="label-saisie">
-              Date début{" "}
-              <input
-                className="input-recherche"
-                type="text"
-                id="d-debut"
-              ></input>
-            </label>
-          </div>
+          <label className="label-saisie">
+            Date début{" "}
+            <input className="input-recherche" type="text" id="d-debut"></input>
+          </label>
         </form>
         <div className="div-span">
           <span className="span-annule">
-            <button className="lancer"  onClick={() => {
+            <button
+              className="lancer"
+              onClick={() => {
                 getJournal();
-                document.getElementById("recherche-cont").style.display = "none";
-              }}>
+
+                document.getElementById("recherche-cont").style.display =
+                  "none";
+                document.getElementById("tbch-pointage").style.display =
+                  "revert";
+              }}
+            >
               lancer la recherche
             </button>
             <button
@@ -296,8 +290,8 @@ const Recherche = () => {
         </div>
       </div>
 
-      <div id="tb-pointage">
-        <table className="tb-pointage">
+      <div id="tbch-pointage">
+        <table className="tbc-pointage">
           <thead className="th-Recherche">
             <tr id="thr-Recherche">
               <th style={{ width: 2 + "em" }}>N°</th>
@@ -334,6 +328,7 @@ const Recherche = () => {
                   onClick={(event) => {
                     event.preventDefault();
                     selectionne(undoc);
+                    //setModifLequel(undoc);
                   }}
                   className="tr-ligne"
                   key={undoc.id}
