@@ -19,7 +19,6 @@ import {
   endAt,
   startAt,
 } from "firebase/firestore";
-import { listCiphers } from "crypto-browserify";
 
 //console.log("journalCollectionRef.", journalCollectionRef.type);
 
@@ -46,6 +45,15 @@ const Recherche = () => {
 
   /************* getJournal ********** */
   const getJournal = useCallback(async () => {
+    let dat0 = document.getElementById("d-debut").value;
+    console.log("dat0",dat0);
+    dat0 = dat0.split('/') ;
+
+   let dat1 = new Date(parseInt(dat0[2], 10), 
+    parseInt(dat0[1], 10) - 1 ,
+     parseInt(dat0[0]), 10).getTime();
+
+
     let conditions = [];
     if (banque !== "all") conditions.push(where("banque", "==", banque));
 
@@ -62,8 +70,8 @@ const Recherche = () => {
     if (nature !== "") conditions.push(where("nature", "==", nature));
 
     conditions.push(orderBy("date", "desc"));
-
-    conditions.push(endAt(debut));
+console.log("debut de getjournal",debut);
+    conditions.push(endAt(dat1));
     conditions.push(startAt(fin)); //31/12/2050
     conditions.push(limit(100));
 
@@ -84,7 +92,8 @@ const Recherche = () => {
     } catch (error) {
       console.log("Erreur du query ", alert(error));
     }
-  }, [banque, debut, fin, pointe, menage, nature, somme, note]);
+   }, [banque, debut,  fin, pointe, menage, nature, somme, note]);
+  
 
   //******************USEEFFECT ***************************/
 
@@ -131,15 +140,25 @@ const Recherche = () => {
 
   const getData = (year, month, day) => {
     console.log(year, month, day);
-    console.log(year, month, day);
+  
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
-    // document.getElementById("recherche-ligne").style.display = "revert";
     let val = new Date(year, month, day).getTime();
     let d = new Date(val).toLocaleDateString("fr-FR");
     setDebut(val);
     console.log(("debut", debut));
     let d0 = new Date(debut).toLocaleDateString("fr-FR");
+    console.log("document.d-debut",document.getElementById("d-debut").value);
+    let dat0 = document.getElementById("d-debut").value;
+    console.log("dat0",dat0);
+    dat0 = dat0.split('/') ;
+
+   let dat1 = new Date(parseInt(dat0[2], 10), 
+    parseInt(dat0[1], 10) - 1 ,
+     parseInt(dat0[0]), 10).getTime();
+    
+    console.log("dat1",dat1);
+console.log("dat1",new Date(dat1).toLocaleDateString("fr-FR"));
     if (d === "Invalid Date") { d = d0; } //quand on refait une recherche après modif
     document.getElementById("d-debut").value = d;
     setShowCalendar(false);
@@ -273,9 +292,10 @@ const Recherche = () => {
         </form>
         <div className="div-span">
           <span className="span-annule">
-            <button
+            {/* <button
               className="lancer"
               onClick={() => {
+              
                 getJournal();
 
                 document.getElementById("recherche-cont").style.display =
@@ -285,7 +305,7 @@ const Recherche = () => {
               }}
             >
               lancer la recherche
-            </button>
+            </button> */}
             <button
               className="annule"
               onClick={() => {
@@ -335,6 +355,7 @@ const Recherche = () => {
                 <tr
                   onDoubleClick={(event) => {
                     event.preventDefault();
+                    document.getElementById("recherche-cont").style.display = "none";
                     selectionne(undoc);
                   }}
                   className="tr-ligne"

@@ -60,6 +60,7 @@ const Modif = (props: any) => {
   const modifNature = async (e: any) => {
     setNature(e.target.value);
     await updateDoc(docRef, { nature: e.target.value });
+    // document.getElementById("recherche-cont")!!.style.display = "none";
   };
 
   const modifBenef = async (e: any) => {
@@ -97,22 +98,14 @@ const Modif = (props: any) => {
     props.onCloseModif();
   };
 
-  // const msg = () => {
-  //   let w = window.innerWidth / 2;
-  //   let z = w - 258 + "px";
-  //   document.getElementById("modif-msg")!!.style.display = "flex";
-  //   document.getElementById("modif-msg")!!.style.left = z;
-  //  setTimeout(function () {
-  //    document.getElementById("modif-msg")!!.style.display = "none";
-  //  }, 2500);
-  // };
+
 
   if (props.openModif === "x") return null;
 
   //******************************************************* */
   return (
     <div>
-      <ListeDepenses
+      {/* <ListeDepenses
         //  open={showListDepenses}
         open={""}
         onClose={() => {
@@ -123,7 +116,7 @@ const Modif = (props: any) => {
         onValider={(lequel) => {
           modifNature(lequel);
         }}
-      ></ListeDepenses>
+      ></ListeDepenses> */}
       <div>
         <div className="modif-msg" id="modif-msg">
           Modification enregistrée
@@ -289,8 +282,10 @@ const Modif = (props: any) => {
             type="button"
             id="btn-cancel"
             className="modif-button"
-            onClick={props.onCloseModif}
-          >
+            onClick = {() =>{
+              
+              props.onCloseModif();
+            }} >
             Valider
           </button>
         </div>

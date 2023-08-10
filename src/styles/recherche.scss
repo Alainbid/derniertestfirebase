@@ -70,7 +70,8 @@
 
 
 #tbch-pointage{
-  display:none;
+  display:flex;
+  justify-content: center;
 }
 th {
   font-weight: 400;
