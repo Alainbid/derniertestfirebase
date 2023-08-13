@@ -3,7 +3,7 @@ import "../styles/recherche.scss";
 // import "../styles/togglebtn.scss";
 import Navbarre from "../components/Navbar";
 import { db } from "../pages/Firebasefirestore";
-import Calendar from "../components/Calendar.tsx";
+import Calendar from '../components/Calendrier';
 import Modif from "../components/Modif.tsx";
 
 import {
@@ -32,6 +32,7 @@ const Recherche = () => {
   const [letotal, setLetotal] = useState(0);
   const [note, setNote] = useState("");
   const [nature, setNature] = useState("");
+  const [benef, setBenef] = useState("");
   const [debut, setDebut] = useState(1400000000000);
   //const [fin] = useState(new Date("2050/12/30").getTime());
   const [fin] = useState(2555580680000);
@@ -53,7 +54,6 @@ const Recherche = () => {
     parseInt(dat0[1], 10) - 1 ,
      parseInt(dat0[0]), 10).getTime();
 
-
     let conditions = [];
     if (banque !== "all") conditions.push(where("banque", "==", banque));
 
@@ -68,6 +68,8 @@ const Recherche = () => {
     if (note !== "") conditions.push(where("note", "==", note));
 
     if (nature !== "") conditions.push(where("nature", "==", nature));
+
+    if (benef !== "") conditions.push(where("benef", "==", benef));
 
     conditions.push(orderBy("date", "desc"));
 console.log("debut de getjournal",debut);
@@ -92,7 +94,7 @@ console.log("debut de getjournal",debut);
     } catch (error) {
       console.log("Erreur du query ", alert(error));
     }
-   }, [banque, debut,  fin, pointe, menage, nature, somme, note]);
+   }, [banque, debut, benef,  fin, pointe, menage, nature, somme, note]);
   
 
   //******************USEEFFECT ***************************/
@@ -138,29 +140,23 @@ console.log("debut de getjournal",debut);
     e.target.value === "" ? setNature("") : setNature(e.target.value);
   };
 
-  const getData = (year, month, day) => {
-    console.log(year, month, day);
-  
+  const modifBenef = (e) => {
+    e.target.value === "" ? setBenef("") : setBenef(e.target.value);
+  };
+
+  const getData = (datechoisieheure) => {
+  // const getData = (year, month, day) => {
+    console.log("datechoisieheure  reche",datechoisieheure);
+  document.getElementById("d-debut").value = new Date(datechoisieheure).toLocaleString();
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
-    let val = new Date(year, month, day).getTime();
-    let d = new Date(val).toLocaleDateString("fr-FR");
-    setDebut(val);
-    console.log(("debut", debut));
-    let d0 = new Date(debut).toLocaleDateString("fr-FR");
-    console.log("document.d-debut",document.getElementById("d-debut").value);
-    let dat0 = document.getElementById("d-debut").value;
-    console.log("dat0",dat0);
-    dat0 = dat0.split('/') ;
-
-   let dat1 = new Date(parseInt(dat0[2], 10), 
-    parseInt(dat0[1], 10) - 1 ,
-     parseInt(dat0[0]), 10).getTime();
+   
     
-    console.log("dat1",dat1);
-console.log("dat1",new Date(dat1).toLocaleDateString("fr-FR"));
-    if (d === "Invalid Date") { d = d0; } //quand on refait une recherche après modif
-    document.getElementById("d-debut").value = d;
+    setDebut(datechoisieheure);
+    console.log(("debut", debut));
+   
+    console.log("document.d-debut",document.getElementById("d-debut").value);
+
     setShowCalendar(false);
   };
 
@@ -175,7 +171,7 @@ console.log("dat1",new Date(dat1).toLocaleDateString("fr-FR"));
   return (
     <div>
       {showNavbar && <Navbarre id="navbar"></Navbarre>}
-      {showCalendar && <Calendar id="calencar" sendData={getData} />}
+      {showCalendar && <Calendar id="calencar" sendData={getData} pourqui="recherche"  />}
 
       <p className="h2-Recherche">Recherche d&apos;écritures </p>
 
@@ -185,7 +181,7 @@ console.log("dat1",new Date(dat1).toLocaleDateString("fr-FR"));
           setModifLequel("x");
           getData();
         }}
-        // onCloseModif={() =>   }
+        
       ></Modif>
 
       <div id="depuis-container">
@@ -266,22 +262,32 @@ console.log("dat1",new Date(dat1).toLocaleDateString("fr-FR"));
           </label>
 
           <label className="label-saisie">
-            Note{" "}
-            <input
-              className="input-recherche"
-              type="text"
-              id="note"
-              onChange={modifNote}
-            ></input>
-          </label>
-
-          <label className="label-saisie">
             Depense{" "}
             <input
               className="input-recherche"
               type="text"
               id="depense"
               onChange={modifDepense}
+            ></input>
+          </label>
+
+          <label className="label-saisie">
+            Fournisseur{" "}
+            <input
+              className="input-recherche"
+              type="text"
+              id="benefs"
+              onChange={modifBenef}
+            ></input>
+          </label>
+
+          <label className="label-saisie">
+            Note{" "}
+            <input
+              className="input-recherche"
+              type="text"
+              id="note"
+              onChange={modifNote}
             ></input>
           </label>
 

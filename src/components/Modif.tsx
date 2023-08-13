@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../pages/Firebasefirestore";
 import "../styles/modif.scss";
-import ListeDepenses from "./Listedepenses";
-import PropTypes, { any } from "prop-types";
+//import ListeDepenses from "./Listedepenses";
+import PropTypes, {} from "prop-types";
 
 const Modif = (props: any) => {
   const docRef = doc(db, "cfbjournal", props.openModif);
@@ -17,7 +17,7 @@ const Modif = (props: any) => {
   const [pointe, setPointe] = useState(false);
   const [date, setDate] = useState("01/01/2023");
   //const [setShowListDepenses] = useState(false);
-  const [listPosition] = useState([0, 0]);
+  //const [listPosition] = useState([0, 0]);
 
   const getDocument = useCallback(async () => {
     if (props.openModif !== "x") {
@@ -283,7 +283,6 @@ const Modif = (props: any) => {
             id="btn-cancel"
             className="modif-button"
             onClick = {() =>{
-              
               props.onCloseModif();
             }} >
             Valider

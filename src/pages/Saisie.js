@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Navbarre from "../components/Navbar";
-import Calendar from "../components/Calendar.tsx";
+import Calendar from "../components/Calendrier"
 import "../styles/saisie.scss";
 import { db } from "../pages/Firebasefirestore";
 import { collection, addDoc } from "firebase/firestore";
@@ -21,6 +21,7 @@ function Saisie() {
   const [showListdepbenef, setShowListdepbenef] = useState("");
   const [natureDepense, setNatureDepense] = useState("");
   const [quiBenef, setQuiBenef] = useState("");
+
 
 
 
@@ -61,12 +62,13 @@ function Saisie() {
     setSomme(parseFloat(e.target.value));
   };
 
-  const getData = (year, month, day) => {
+  const getData = (ladateh) => {
     document.getElementById("saisie-container").style.display = "revert";
-    setNavHidden(false);
-    let val = new Date(year, month, day).getTime();
-    setTemps(val);
+   console.log("dat",ladateh);
+  
+    setTemps(ladateh);
     setShowCalendar(false);
+     setNavHidden(false);
   };
 
   const annuler = () => {
@@ -89,7 +91,8 @@ function Saisie() {
       {navHidden ? <Navbarre></Navbarre> : null}
 
       <h1 id="h1-saisie">Saisie d&apos;écritures</h1>
-      {showCalendar && <Calendar id="calencar" sendData={getData} />}
+      {showCalendar && <Calendar id="calencar" pourqui={'saisie' }
+       sendData={getData} />}
       <ListeDepenses
         open={showListdepbenef}
         onValider={(x,qui) => {
@@ -250,7 +253,7 @@ function Saisie() {
             </label>
           </div>
           <p className="date-saisie" id="d-debut">
-            le{" : "} {new Date(temps).toLocaleDateString()}{" "}
+            le{" : "} {new Date(temps).toLocaleString()}{" "}
           </p>
           <span className="btn-fin">
             {" "}

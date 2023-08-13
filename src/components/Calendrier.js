@@ -1,16 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/calendar.scss";
 
 
-
-const Calendar = (
-   { sendData  }:
-   {sendData:Function },
-   ) => {
- 
-  // const [today,setToday] = useState<Date>( new Date());
-  const [today] = useState<Date>(() => new Date());
-  // const [showBtn,setShowBtn] = useState(false);
+function Calendar   (dequi)  {
+  const [today] = useState(() => new Date());
   const [month, setMonth] = useState(() => today.getMonth());
   const [year, setYear] = useState(() => today.getFullYear());
   const [nDays, setnDays] = useState(() =>
@@ -19,37 +12,24 @@ const Calendar = (
   const [startDay, setStartDay] = useState(() =>
     new Date(year, month, 1).getDay()
   );
-  const [day] = useState(() => today!!.getDate());
+  const [day] = useState(() => today.getDate());
 
   const monthTag = [
-    "Janv",
+    "Jan",
     "Fev",
-    "Mars",
+    "Mar",
     "Avr",
     "Mai",
     "Jun",
     "Jul",
-    "Août",
-    "Sept",
+    "Aou",
+    "Sep",
     "Oct",
     "Nov",
     "Dec",
   ];
 
-  
-
-
   const days = document.getElementsByTagName("td");
-  
-//if(!open) return null;
-
-
-  
-const onValid = useCallback( (d:number) => {
-  sendData(year, month, d);
-  // document.getElementById('calencar')!!.style.display="none";
-  //voirCalendar(false)
-},[month,sendData,year]);
 
   useEffect(() => {
     for (let k = 0; k < 42; k++) {
@@ -60,6 +40,8 @@ const onValid = useCallback( (d:number) => {
     voirCalendar(true);
     setnDays(new Date(year, month + 1, 0).getDate());
     setStartDay(new Date(year, month, 1).getDay());
+    console.log("startday", startDay);
+
     var n = startDay;
     for (let i = 1; i <= nDays; i++) {
       days[n].innerHTML = i.toString();
@@ -76,20 +58,27 @@ const onValid = useCallback( (d:number) => {
         days[day + s].id = "selected";
 
         days[j].addEventListener("click", () => {
-          //console.log("days[j]",j-1);
-          onValid(j-1);
+          console.log("j-startday", j - startDay + 1);
+          
+          let ladateh = toUnixTime(year, month, j - startDay + 1,dequi.pourqui)
+          console.log('dat',ladateh);
+          console.log("dequi",dequi.pourqui);
+          console.log("dequi send",dequi.sendData);
+          
+          
+          dequi.sendData(ladateh);
         });
       }
     }
+  }, [year, month, startDay, days, nDays, day,  dequi.pourqui]);
 
-  },[year, month, startDay, days, nDays, day,onValid]);
-
-const voirCalendar = (open:boolean) => {
-  //console.log("open",open);
-  open ? 
-  document.getElementById('calencar')!!.style.display="flex":
-  document.getElementById('calencar')!!.style.display="none";  
-}
+  const voirCalendar = (open) => {
+    //console.log("open",open);
+    
+    open
+      ? (document.getElementById("calencar").style.display = "flex")
+      : (document.getElementById("calencar").style.display = "none");
+  };
 
   const preMonth = () => {
     if (month < 1) {
@@ -108,18 +97,18 @@ const voirCalendar = (open:boolean) => {
       setMonth(month + 1);
     }
   };
- 
+
+  //if(!open) return null;
 
   return (
-    <div id="dbut" >
-      
+    <div id="dbut">
       <div className="elegant-calencar" id="calencar">
         <div id="header" className="clearfix">
           <div className="pre-button0" onClick={() => preMonth()}>
             {"<"}
           </div>
           <div className="head-info">
-            <div className="head-month"  >
+            <div className="head-month">
               {day}
               {"-"}
               {monthTag[month]}
@@ -131,6 +120,7 @@ const voirCalendar = (open:boolean) => {
             {">"}
           </div>
         </div>
+      {/* <div> {pourqui.length} </div> */}
         <table id="calendar">
           <thead className="th-cal">
             <tr className="tr-cal">
@@ -143,7 +133,7 @@ const voirCalendar = (open:boolean) => {
               <th>Sam</th>
             </tr>
           </thead>
-          <tbody  className="tb-cal">
+          <tbody className="tb-cal">
             <tr className="tr-cal">
               <td></td>
               <td></td>
@@ -205,4 +195,31 @@ const voirCalendar = (open:boolean) => {
   );
 };
 
+
+
 export default Calendar;
+
+const toUnixTime = (
+  year,
+  month,
+  day,
+  pourquel
+  ) => {
+  let datechoisie = new Date(year, month, day).getTime(); //choisie à o heure en millis
+  console.log("datechoisie", datechoisie);
+  let hoy = new Date().getTime(); //date du jour millis
+  let tx = new Date().toDateString();
+  let hoyoh = new Date(tx).getTime(); //date du jour à 0 heure millis
+
+  let datechoisieHeure = datechoisie + (hoy - hoyoh);
+  console.log("datechoisieHeure", new Date(datechoisieHeure).toLocaleString());
+  console.log("datechoisieHeure", datechoisieHeure);
+  console.log("pourquel", pourquel);
+
+  if (pourquel === "saisie") {
+    return datechoisieHeure;
+  } // date choisie à 0 heure en millis
+  else {
+    return datechoisie;
+  } //date choisie avec heure exacte en millis
+};
