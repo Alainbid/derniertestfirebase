@@ -35,7 +35,7 @@ const Modif = (props: any) => {
         setPointe(docSnap.get("pointe"));
         setMode(docSnap.get("mode"));
         const d = docSnap.get("temps");
-        setDate(new Date(d).toLocaleDateString("fr-FR"));
+        setDate(new Date(d).toLocaleString("fr-FR"));
       } else {
         alert("document inconnu");
       }
@@ -91,10 +91,13 @@ const Modif = (props: any) => {
   const modifMode = async (e: any) => {
     setMode(e.target.value);
     await updateDoc(docRef, { mode: e.target.value });
+
   };
 
   const onDelete = async () => {
     await deleteDoc(docRef);
+    console.log("docref",docRef);
+    
     props.onCloseModif();
   };
 
@@ -275,7 +278,8 @@ const Modif = (props: any) => {
         </form>
         <p></p>
         <div className="modif-btn">
-          <button type="button" className="modif-button" onClick={onDelete}>
+          <button type="button" className="modif-button" 
+          onClick={onDelete}>
             Supprimer l&apos;écriture
           </button>
           <button

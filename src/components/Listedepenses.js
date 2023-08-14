@@ -40,7 +40,7 @@ const ListeDepenses = (props) => {
       >
 
         <div className="listdep-table">
-          <p>liste</p>
+          
           {
             liste.map((item, index) => {
              return(

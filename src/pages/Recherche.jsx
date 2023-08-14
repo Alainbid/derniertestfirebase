@@ -3,7 +3,7 @@ import "../styles/recherche.scss";
 // import "../styles/togglebtn.scss";
 import Navbarre from "../components/Navbar";
 import { db } from "../pages/Firebasefirestore";
-import Calendar from '../components/Calendrier';
+import Calendar from "../components/Calendrier";
 import Modif from "../components/Modif.tsx";
 
 import {
@@ -47,12 +47,10 @@ const Recherche = () => {
   /************* getJournal ********** */
   const getJournal = useCallback(async () => {
     let dat0 = document.getElementById("d-debut").value;
-    console.log("dat0",dat0);
-    dat0 = dat0.split('/') ;
-
-   let dat1 = new Date(parseInt(dat0[2], 10), 
-    parseInt(dat0[1], 10) - 1 ,
-     parseInt(dat0[0]), 10).getTime();
+    dat0 = dat0.split("/");
+    let dat1 = new Date(
+      parseInt(dat0[2], 10),  parseInt(dat0[1], 10) - 1,  parseInt(dat0[0]),  10 )
+      .getTime();
 
     let conditions = [];
     if (banque !== "all") conditions.push(where("banque", "==", banque));
@@ -72,7 +70,7 @@ const Recherche = () => {
     if (benef !== "") conditions.push(where("benef", "==", benef));
 
     conditions.push(orderBy("date", "desc"));
-console.log("debut de getjournal",debut);
+    console.log("debut de getjournal", debut);
     conditions.push(endAt(dat1));
     conditions.push(startAt(fin)); //31/12/2050
     conditions.push(limit(100));
@@ -94,14 +92,13 @@ console.log("debut de getjournal",debut);
     } catch (error) {
       console.log("Erreur du query ", alert(error));
     }
-   }, [banque, debut, benef,  fin, pointe, menage, nature, somme, note]);
-  
+  }, [banque,debut,  benef, fin, pointe, menage, nature, somme, note]);
 
   //******************USEEFFECT ***************************/
 
   useEffect(() => {
     getJournal();
-  }, [getJournal]);
+  }, [getJournal, note]);
 
   const modifBanque = () => {
     let bso = checkBou.current.checked;
@@ -145,43 +142,39 @@ console.log("debut de getjournal",debut);
   };
 
   const getData = (datechoisieheure) => {
-  // const getData = (year, month, day) => {
-    console.log("datechoisieheure  reche",datechoisieheure);
-  document.getElementById("d-debut").value = new Date(datechoisieheure).toLocaleString();
+    console.log("datechoisieheure  reche", datechoisieheure);
+    document.getElementById("d-debut").value = new Date(
+      datechoisieheure
+    ).toLocaleString();
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
-   
-    
     setDebut(datechoisieheure);
-    console.log(("debut", debut));
-   
-    console.log("document.d-debut",document.getElementById("d-debut").value);
-
+    //console.log(("debut", debut));
+    //console.log("document.d-debut", document.getElementById("d-debut").value);
     setShowCalendar(false);
   };
 
-  const selectionne = (doc) => {
-    setModifLequel(doc.id);
-
-    //console.log("undoc", doc.id);
-    console.log("undoc modiflequel", modifLequel);
-  };
+  // useEffect(()=>{
+  //   getData();
+  // })
 
   //****************************************************** */
   return (
     <div>
       {showNavbar && <Navbarre id="navbar"></Navbarre>}
-      {showCalendar && <Calendar id="calencar" sendData={getData} pourqui="recherche"  />}
+      {showCalendar && (
+        <Calendar id="calencar" sendData={getData} pourqui="recherche" />
+      )}
 
       <p className="h2-Recherche">Recherche d&apos;écritures </p>
 
       <Modif
         openModif={modifLequel}
-        onCloseModif={() => {
+        onCloseModif={async () => {
           setModifLequel("x");
-          getData();
+          await getJournal();
+          document.getElementById("recherche-cont").style.display = "none";
         }}
-        
       ></Modif>
 
       <div id="depuis-container">
@@ -298,20 +291,6 @@ console.log("debut de getjournal",debut);
         </form>
         <div className="div-span">
           <span className="span-annule">
-            {/* <button
-              className="lancer"
-              onClick={() => {
-              
-                getJournal();
-
-                document.getElementById("recherche-cont").style.display =
-                  "none";
-                document.getElementById("tbch-pointage").style.display =
-                  "revert";
-              }}
-            >
-              lancer la recherche
-            </button> */}
             <button
               className="annule"
               onClick={() => {
@@ -323,7 +302,9 @@ console.log("debut de getjournal",debut);
           </span>
         </div>
       </div>
-
+      <i id="dbl-clic">
+        Pour éditer faire : Double-click sur la valeur à modifier
+      </i>
       <div id="tbch-pointage">
         <table className="tbc-pointage">
           <thead className="th-Recherche">
@@ -361,8 +342,9 @@ console.log("debut de getjournal",debut);
                 <tr
                   onDoubleClick={(event) => {
                     event.preventDefault();
-                    document.getElementById("recherche-cont").style.display = "none";
-                    selectionne(undoc);
+                    document.getElementById("recherche-cont").style.display =
+                      "none";
+                    setModifLequel(undoc.id);
                   }}
                   className="tr-ligne"
                   key={undoc.id}

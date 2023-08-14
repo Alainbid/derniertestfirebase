@@ -23,12 +23,9 @@ function Saisie() {
   const [quiBenef, setQuiBenef] = useState("");
 
 
-
-
   const onSubmit = async(data) => {
-    console.log("somme",somme);
+    //console.log("somme",somme);
     if (somme !== "") {
-      
       data.new = false;
       data.numero = "";
       data.somme = somme;
