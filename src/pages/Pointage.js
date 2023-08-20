@@ -22,15 +22,16 @@ const Pointage = () => {
 
   const getJournal = useCallback(async () => {
     let conditions = [];
+    conditions.push(orderBy("temps", "desc"));
     if (banque != null) {
       conditions.push(where("banque", "==", banque));
     }
     conditions.push(where("pointe", "==", false));
-    conditions.push(orderBy("date", "desc"));
+    // conditions.push(orderBy("date", "desc"));
     let lequery = query(collection(db, "cfbjournal"), ...conditions);
     try {
       const data = await getDocs(lequery);
-      console.log("data", data.docs);
+      //console.log("data", data.docs);
       var total = 0;
       data.forEach((element) => {
         total += element.data().somme;
@@ -38,8 +39,11 @@ const Pointage = () => {
       total = parseInt(total * 100);
       setLeTotal(parseFloat(total / 100).toLocaleString("de-DE"));
       setLaListe(data.docs.map((ledoc) => ({ ...ledoc.data(), id: ledoc.id })));
+      
     } catch (error) {
-      console.log(alert(error));
+     // console.log(alert(error));
+      console.log(error);
+
     }
   }, [banque]);
 
@@ -144,7 +148,7 @@ const Pointage = () => {
                     id="td-l-point"
                     style={{ width: 11 + "em", background: "#69c88210" }}
                   >
-                    {new Date(undoc.temps).toLocaleDateString()}
+                    {new Date(undoc.temps).toLocaleString()}
                   </td>
                   <td
                     id="td-l-point"

@@ -49,18 +49,21 @@ const Recherche = () => {
     let dat0 = document.getElementById("d-debut").value;
     dat0 = dat0.split("/");
     let dat1 = new Date(
-      parseInt(dat0[2], 10),  parseInt(dat0[1], 10) - 1,  parseInt(dat0[0]),  10 )
+      parseInt(dat0[2], 10),  parseInt(dat0[1], 10) - 1,  parseInt(dat0[0],10) )
       .getTime();
 
     let conditions = [];
     if (banque !== "all") conditions.push(where("banque", "==", banque));
 
-    if (checkPointe.current.checked) {
-      conditions.push(where("pointe", "==", pointe));
+    if(!pointe){
+      conditions.push(where("pointe", "==",false));
     }
-    if (checkMenage.current.checked) {
-      conditions.push(where("menage", "==", menage));
-    }
+    
+    if (menage)    {  conditions.push(where("menage", "==",true));
+    console.log("63",menage);
+  }
+      
+    
     if (somme !== 0) conditions.push(where("somme", "==", parseFloat(somme)));
 
     if (note !== "") conditions.push(where("note", "==", note));
@@ -69,7 +72,7 @@ const Recherche = () => {
 
     if (benef !== "") conditions.push(where("benef", "==", benef));
 
-    conditions.push(orderBy("date", "desc"));
+    conditions.push(orderBy("temps", "desc"));
    // console.log("debut de getjournal", debut);
     conditions.push(endAt(dat1));
     conditions.push(startAt(fin)); //31/12/2050
@@ -86,11 +89,11 @@ const Recherche = () => {
       });
       total = parseInt(total * 100);
       setLetotal(parseFloat(total / 100));
-      setLaListe(data.docs.map((ledoc) => ({ ...ledoc.data(), id: ledoc.id })));
+      setLaListe(data.docs.map((ledoc,index) => ({ ...ledoc.data(), id: ledoc.id })));
 
      // console.log("nombre de data", data.docs.length);
     } catch (error) {
-      console.log("Erreur du query ", alert(error));
+      console.log("Erreur du query ",error);
     }
   }, [banque,  benef, fin, pointe, menage, nature, somme, note]);
 
@@ -118,6 +121,7 @@ const Recherche = () => {
 
   const modifMenage = (e) => {
     e.target.checked ? setMenage(true) : setMenage(false);
+    console.log("menage ds modif",menage);
   };
 
   const modifPointe = (e) => {
@@ -148,7 +152,6 @@ const Recherche = () => {
     ).toLocaleString();
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
-   // setDebut(datechoisieheure);
     //console.log(("debut", debut));
     //console.log("document.d-debut", document.getElementById("d-debut").value);
     setShowCalendar(false);
@@ -219,7 +222,7 @@ const Recherche = () => {
               value={"M"}
               type="checkbox"
               ref={checkMenage}
-              checked={menage === true}
+              // checked={menage === true}
               onChange={modifMenage}
             ></input>
             Budget
@@ -348,8 +351,9 @@ const Recherche = () => {
                   <td style={{ width: 2 + "em" }}>{index + 1}</td>
                   <td style={{ width: 6 + "em" }}>{undoc.banque}</td>
                   <td style={{ width: 11 + "em" }}>
-                    {new Date(undoc.temps).toLocaleDateString()}
+                    {new Date(undoc.temps).toLocaleString()}
                   </td>
+                 
                   <td style={{ width: 3 + "em" }}>
                     {undoc.menage === true ? "M" : " "}
                   </td>
