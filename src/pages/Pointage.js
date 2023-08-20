@@ -77,7 +77,7 @@ const Pointage = () => {
   return (
     <div>
       <Navbarre />
-      <p className="h2-pointage">pointage d&apos;écritures </p>
+      <p className="h2-pointage">Pointage d&apos;écritures </p>
       <div className="point-container">
         <label className="bourso-container">
           <input
@@ -103,8 +103,7 @@ const Pointage = () => {
       </div>
 
       <i className="pt-total" style={{ textJustify: "center" }}>
-        Pour pointer faire : Double-click sur le &quot;?&quot; de la colonne
-        Montant
+        Pour pointer faire : Double-click sur la valeur de la colonne &quot;Montant&quot;
       </i>
 
       <div>

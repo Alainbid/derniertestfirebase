@@ -1,24 +1,12 @@
-// #btn-valid{
-//   font-size: 1.5rem;
-//   display: flex;
-//   margin: auto;
-//   background-color: #c4b08d;
-//   border-radius: 20px;
-//   padding-left: 20px;
-//   padding-right: 20px;
-//   padding-top: 8px;
-//   padding-bottom: 8px;
-//   box-shadow: beige;
-//   border: none;
-// }
+
 
 .elegant-calencar {
    margin: auto;
    z-index: 1000;
-   background: #c8d4cb;
+   background: #86837d;
    width: 19em;
    height: 19em;
-   box-shadow: 9px 7px 10px 1px #546256;
+   box-shadow: 9px 7px 10px 1px #575451;
    text-align: center;
    /* margin: 0em auto; */
    border: none;
@@ -37,8 +25,8 @@ margin-top: 1.5rem;
 .pre-button0,
 .next-button0 {
    font-weight: bold;
-   background: #c8d4cb;
-   color: #023812;
+   background: #86837d;
+   color: #4d3413;
    font-size: 2rem;
    padding: 8px;
    cursor: pointer;
@@ -47,8 +35,8 @@ margin-top: 1.5rem;
 
 .head-month {
 font-weight: 600;
-background: #c8d4cb;
-color: #023812;
+background: #86837d;
+color: #4d3413;
 font-size: 2rem;
 padding: 9px;
 
@@ -71,12 +59,12 @@ transform: rotate(360deg);
 
 #calendar{
 display: inline-block;
-background-color: #c8d4cb;
+background-color: #86837d;
 }
 
 
 #calendar tr {
-  background: #c8d4cb;
+  background: #86837d;
    height: 1.5em;
    
 }
@@ -85,8 +73,8 @@ background-color: #c8d4cb;
 
 font-weight: 600;
 font-size: 1.5rem;
-background: #c8d4cb;
-color: #023812;
+background: #86837d;
+color: #4d3413;
 padding-bottom: 1rem;
 }
 
@@ -111,21 +99,20 @@ tbody td:active {
 
 #selected{
   color: #fff;
-  background-color: #023812;
+  background-color: #4d3413;
   border: none;
   cursor: pointer;
   border-radius: 50%;
 }
 
 #today {
-   background-color: #5d7c6d4a;
+   background-color: rgb(78 68 49 / 29%);
    color: #000000;
-  //  font-family: serif;
    font-style: bold;
-    border-radius: 50%;
+   border-radius: 50%;
 }
 
 #disabled {
 cursor: default;
-background: #c8d4cb;
+background: #86837d;
 }

@@ -40,7 +40,7 @@ function Calendar   (dequi)  {
     voirCalendar(true);
     setnDays(new Date(year, month + 1, 0).getDate());
     setStartDay(new Date(year, month, 1).getDay());
-    console.log("startday", startDay);
+    //console.log("startday", startDay);
 
     var n = startDay;
     for (let i = 1; i <= nDays; i++) {
@@ -58,19 +58,13 @@ function Calendar   (dequi)  {
         days[day + s].id = "selected";
 
         days[j].addEventListener("click", () => {
-          console.log("j-startday", j - startDay + 1);
-          
+        //  console.log("j-startday", j - startDay + 1);
           let ladateh = toUnixTime(year, month, j - startDay + 1,dequi.pourqui)
-          console.log('dat',ladateh);
-          console.log("dequi",dequi.pourqui);
-          console.log("dequi send",dequi.sendData);
-          
-          
           dequi.sendData(ladateh);
         });
       }
     }
-  }, [year, month, startDay, days, nDays, day,  dequi.pourqui]);
+  }, [year, month, startDay, days, nDays, day,  dequi]);
 
   const voirCalendar = (open) => {
     //console.log("open",open);
@@ -206,15 +200,15 @@ const toUnixTime = (
   pourquel
   ) => {
   let datechoisie = new Date(year, month, day).getTime(); //choisie à o heure en millis
-  console.log("datechoisie", datechoisie);
+  //console.log("datechoisie", datechoisie);
   let hoy = new Date().getTime(); //date du jour millis
   let tx = new Date().toDateString();
   let hoyoh = new Date(tx).getTime(); //date du jour à 0 heure millis
 
   let datechoisieHeure = datechoisie + (hoy - hoyoh);
-  console.log("datechoisieHeure", new Date(datechoisieHeure).toLocaleString());
-  console.log("datechoisieHeure", datechoisieHeure);
-  console.log("pourquel", pourquel);
+  // console.log("datechoisieHeure", new Date(datechoisieHeure).toLocaleString());
+  // console.log("datechoisieHeure", datechoisieHeure);
+  // console.log("pourquel", pourquel);
 
   if (pourquel === "saisie") {
     return datechoisieHeure;

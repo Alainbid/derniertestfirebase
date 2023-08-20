@@ -21,11 +21,11 @@ const Modif = (props: any) => {
 
   const getDocument = useCallback(async () => {
     if (props.openModif !== "x") {
-      console.log("getdoc", props.openModif);
+      //console.log("getdoc", props.openModif);
 
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        console.log("data", docSnap.data());
+       // console.log("data", docSnap.data());
         setSomme(docSnap.get("somme"));
         setBanque(docSnap.get("banque"));
         setNature(docSnap.get("nature"));

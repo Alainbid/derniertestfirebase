@@ -27,14 +27,17 @@ const SnapshotBenefs = () => {
  
 
   const getBenefs = useCallback( async () => {
+    console.log('try');
     const data = await getDocs(query(benefsCollectionRef, orderBy("qui")));
     setBenefs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     //  console.log(data.docs);
-  },[benefsCollectionRef]);
+  },[]);
 
   useEffect(() => {
     getBenefs();
   },[getBenefs]);
+
+
   //**********  MODIFIER ********** */
   const modifier = async (x) => {
     const data = { qui: "?" };

@@ -23,20 +23,16 @@ const Depenses = () => {
   const [idItem, setIdItem] = useState("");
   const [modalPosition, setModalPosition] = useState([0, 0]);
 
-  const getDepenses = useCallback(async () => {
-    try {
+ const getDepenses = useCallback(async () => {
+    console.log('try');
       const data = await getDocs(
         query(depensesCollectionRef, orderBy("nature"))
       );
       setDepenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    } catch (error) {
-      console.log("Erreur du query", alert(error));
-    }
-  }, [depensesCollectionRef]);
+  },[]);
 
   useEffect(() => {
     getDepenses();
-    //console.log("depenses", Depenses);
   }, [getDepenses]);
 
   //**********  MODIFIER ********** */

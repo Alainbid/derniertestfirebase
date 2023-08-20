@@ -3,15 +3,15 @@
 .modal-overlay {
   z-index: 1100;
   position: fixed;
-  top: 212px;
-  left: 36vw;
-  width: 504px;
-  height: 266px;
-  background: rgb(125, 131, 154);
+  top: 195px;
+  left: 46vw;
+  width: 404px;
+  height: 200px;
+  background: rgb(125, 131, 154,0.5);
   display: flex;
-  padding: 8px;
+  padding: 16px;
   border: solid 1px white;
-  border-radius: 24px;
+  border-radius: 32px;
   align-items: center;
   justify-content: center;
 }
@@ -21,7 +21,7 @@
   flex-direction: column;
   width: 95%;
   border-radius: 16px;
-  background: rgb(64, 70, 94);
+  background: rgb(57 70 82);
   align-items: center;
   height: 95%;
 }
@@ -32,7 +32,7 @@
 .modal-header,
 .modal-footer {
   color: wheat;
-  background: rgb(64, 70, 94);
+  background: rgb(57 70 82);
  
 }
 .modal-header{

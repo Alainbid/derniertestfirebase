@@ -33,7 +33,7 @@ const Recherche = () => {
   const [note, setNote] = useState("");
   const [nature, setNature] = useState("");
   const [benef, setBenef] = useState("");
-  const [debut, setDebut] = useState(1400000000000);
+ // const [setDebut] = useState(1400000000000);
   //const [fin] = useState(new Date("2050/12/30").getTime());
   const [fin] = useState(2555580680000);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -70,7 +70,7 @@ const Recherche = () => {
     if (benef !== "") conditions.push(where("benef", "==", benef));
 
     conditions.push(orderBy("date", "desc"));
-    console.log("debut de getjournal", debut);
+   // console.log("debut de getjournal", debut);
     conditions.push(endAt(dat1));
     conditions.push(startAt(fin)); //31/12/2050
     conditions.push(limit(100));
@@ -88,11 +88,11 @@ const Recherche = () => {
       setLetotal(parseFloat(total / 100));
       setLaListe(data.docs.map((ledoc) => ({ ...ledoc.data(), id: ledoc.id })));
 
-      console.log("nombre de data", data.docs.length);
+     // console.log("nombre de data", data.docs.length);
     } catch (error) {
       console.log("Erreur du query ", alert(error));
     }
-  }, [banque,debut,  benef, fin, pointe, menage, nature, somme, note]);
+  }, [banque,  benef, fin, pointe, menage, nature, somme, note]);
 
   //******************USEEFFECT ***************************/
 
@@ -142,21 +142,18 @@ const Recherche = () => {
   };
 
   const getData = (datechoisieheure) => {
-    console.log("datechoisieheure  reche", datechoisieheure);
+   // console.log("datechoisieheure  reche", datechoisieheure);
     document.getElementById("d-debut").value = new Date(
       datechoisieheure
     ).toLocaleString();
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
-    setDebut(datechoisieheure);
+   // setDebut(datechoisieheure);
     //console.log(("debut", debut));
     //console.log("document.d-debut", document.getElementById("d-debut").value);
     setShowCalendar(false);
   };
 
-  // useEffect(()=>{
-  //   getData();
-  // })
 
   //****************************************************** */
   return (
@@ -165,7 +162,6 @@ const Recherche = () => {
       {showCalendar && (
         <Calendar id="calencar" sendData={getData} pourqui="recherche" />
       )}
-
       <p className="h2-Recherche">Recherche d&apos;écritures </p>
 
       <Modif
