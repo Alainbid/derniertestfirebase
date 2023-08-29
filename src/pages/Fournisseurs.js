@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {  useState } from "react";
 import Navbar from "../components/Navbar";
 import "../styles/depenses.scss";
 
@@ -26,16 +26,18 @@ const SnapshotBenefs = () => {
 
  
 
-  const getBenefs = useCallback( async () => {
-    console.log('try');
+  const getBenefs = async () => {
+    try{
+    console.log('lire BD');
     const data = await getDocs(query(benefsCollectionRef, orderBy("qui")));
     setBenefs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     //  console.log(data.docs);
-  },[]);
+    
+  }catch (error){
+    alert('erreur de connexion',error);
+      console.log("Erreur ",error);
+  }};
 
-  useEffect(() => {
-    getBenefs();
-  },[getBenefs]);
 
 
   //**********  MODIFIER ********** */
@@ -46,16 +48,16 @@ const SnapshotBenefs = () => {
     // console.log("data nature ", data.qui, "   id  ", idItem);
     const lequel = doc(benefsCollectionRef, idItem);
     await updateDoc(lequel, data);
-    setShowModal(false);
     getBenefs();
+    setShowModal(false);
   };
 
   const supprimer = async (id) => {
     const lequel = doc(benefsCollectionRef, id);
     await deleteDoc(lequel);
     // console.log("item ", lequel);
-    setShowModal(false);
     getBenefs();
+    setShowModal(false);
   };
 
   const ajouter = async (newItem) => {
@@ -66,6 +68,10 @@ const SnapshotBenefs = () => {
     getBenefs();
     setShowModal(false);
   };
+
+
+  if ( Benefs[0] === undefined) getBenefs();
+
 
   return (
     <div>

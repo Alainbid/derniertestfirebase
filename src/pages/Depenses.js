@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { useState, useEffect } from "react";
+import React from "react";
+import { useState } from "react";
 import { db } from "./Firebasefirestore";
 import Modale from "../components/Modale.jsx";
 import "../styles/depenses.scss";
@@ -23,17 +23,18 @@ const Depenses = () => {
   const [idItem, setIdItem] = useState("");
   const [modalPosition, setModalPosition] = useState([0, 0]);
 
- const getDepenses = useCallback(async () => {
-    console.log('try');
-      const data = await getDocs(
-        query(depensesCollectionRef, orderBy("nature"))
-      );
-      setDepenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  },[]);
-
-  useEffect(() => {
-    getDepenses();
-  }, [getDepenses]);
+  const getDepenses = async () => {
+    try{
+        console.log('lire BD');
+          const data = await getDocs(
+            query(depensesCollectionRef, orderBy("nature"))
+          );
+          setDepenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      
+        }catch (error){
+      alert('erreur de connexion',error);
+        console.log("Erreur ",error);
+    }};
 
   //**********  MODIFIER ********** */
   const modifier = async (x) => {
@@ -42,16 +43,16 @@ const Depenses = () => {
     //  console.log("data nature ", data.nature, "   id  ", idItem);
     const lequel = doc(depensesCollectionRef, idItem);
     await updateDoc(lequel, data);
-    setShowModal(false);
     getDepenses();
+    setShowModal(false);
   };
 
   const supprimer = async (id) => {
     const lequel = doc(depensesCollectionRef, id);
     await deleteDoc(lequel);
     // console.log("item ", lequel);
-    setShowModal(false);
     getDepenses();
+    setShowModal(false);
   };
 
   const ajouter = async (newItem) => {
@@ -62,6 +63,9 @@ const Depenses = () => {
     getDepenses();
     setShowModal(false);
   };
+
+//pour actualiser la table au début
+  if (Depenses[0]  === undefined) getDepenses();
 
   return (
     <div>

@@ -27,19 +27,21 @@ const Recherche = () => {
   //  const [isActive] = useState(null | 0);
   const [banque, setBanque] = useState("");
   const [pointe, setPointe] = useState(false);
+  const [nonpointe, setnonPointe] = useState(false);
   const [menage, setMenage] = useState(false);
   const [somme, setSomme] = useState(0);
   const [letotal, setLetotal] = useState(0);
   const [note, setNote] = useState("");
   const [nature, setNature] = useState("");
   const [benef, setBenef] = useState("");
- // const [setDebut] = useState(1400000000000);
+  // const [setDebut] = useState(1400000000000);
   //const [fin] = useState(new Date("2050/12/30").getTime());
   const [fin] = useState(2555580680000);
   const [showCalendar, setShowCalendar] = useState(false);
   const checkBou = useRef();
   const checkBva = useRef();
   const checkPointe = useRef();
+  const checknonPointe = useRef();
   const checkMenage = useRef();
   const [modifLequel, setModifLequel] = useState("x");
   const [showNavbar, setShowNavbar] = useState(true);
@@ -49,21 +51,27 @@ const Recherche = () => {
     let dat0 = document.getElementById("d-debut").value;
     dat0 = dat0.split("/");
     let dat1 = new Date(
-      parseInt(dat0[2], 10),  parseInt(dat0[1], 10) - 1,  parseInt(dat0[0],10) )
-      .getTime();
+      parseInt(dat0[2], 10),
+      parseInt(dat0[1], 10) - 1,
+      parseInt(dat0[0], 10)
+    ).getTime();
 
     let conditions = [];
     if (banque !== "all") conditions.push(where("banque", "==", banque));
 
-    if(!pointe){
-      conditions.push(where("pointe", "==",false));
+    if (pointe && !nonpointe) {
+      conditions.push(where("pointe", "==", true));
     }
-    
-    if (menage)    {  conditions.push(where("menage", "==",true));
-    console.log("63",menage);
-  }
-      
-    
+
+    if (nonpointe && !pointe) {
+      conditions.push(where("pointe", "==", false));
+    }
+
+    if (menage) {
+      conditions.push(where("menage", "==", true));
+      console.log("63", menage);
+    }
+
     if (somme !== 0) conditions.push(where("somme", "==", parseFloat(somme)));
 
     if (note !== "") conditions.push(where("note", "==", note));
@@ -73,7 +81,7 @@ const Recherche = () => {
     if (benef !== "") conditions.push(where("benef", "==", benef));
 
     conditions.push(orderBy("temps", "desc"));
-   // console.log("debut de getjournal", debut);
+    // console.log("debut de getjournal", debut);
     conditions.push(endAt(dat1));
     conditions.push(startAt(fin)); //31/12/2050
     conditions.push(limit(100));
@@ -89,19 +97,27 @@ const Recherche = () => {
       });
       total = parseInt(total * 100);
       setLetotal(parseFloat(total / 100));
-      setLaListe(data.docs.map((ledoc,index) => ({ ...ledoc.data(), id: ledoc.id })));
+     
+      setLaListe(
+        data.docs.map((ledoc, index) => ({ ...ledoc.data(), id: ledoc.id }))
+      );
 
-     // console.log("nombre de data", data.docs.length);
+      // console.log("nombre de data", data.docs.length);
     } catch (error) {
-      console.log("Erreur du query ",error);
+      alert("Erreur du query ", error);
+      console.log("Erreur du query ", error);
     }
-  }, [banque,  benef, fin, pointe, menage, nature, somme, note]);
+  }, [banque, benef, fin, pointe, nonpointe, menage, nature, somme, note]);
 
   //******************USEEFFECT ***************************/
 
   useEffect(() => {
     getJournal();
-  }, [getJournal, note]);
+    console.log('letotal',letotal);
+    (letotal === 0) ?
+    document.getElementById("tbch-pointage").style.display = "none":
+    document.getElementById("tbch-pointage").style.display = "flex";
+  }, [getJournal, note,letotal]);
 
   const modifBanque = () => {
     let bso = checkBou.current.checked;
@@ -114,18 +130,22 @@ const Recherche = () => {
   };
 
   const depuisLe = () => {
-    setShowNavbar(true);
+    setShowNavbar(false);
     setShowCalendar(true);
     document.getElementById("depuis-container").style.display = "none";
   };
 
   const modifMenage = (e) => {
     e.target.checked ? setMenage(true) : setMenage(false);
-    console.log("menage ds modif",menage);
+    console.log("menage ds modif", menage);
   };
 
   const modifPointe = (e) => {
-    !e.target.checked ? setPointe(true) : setPointe(false);
+    e.target.checked ? setPointe(true) : setPointe(false);
+  };
+
+  const modifnonPointe = (e) => {
+    e.target.checked ? setnonPointe(true) : setnonPointe(false);
   };
 
   const modifSomme = (e) => {
@@ -146,7 +166,7 @@ const Recherche = () => {
   };
 
   const getData = (datechoisieheure) => {
-   // console.log("datechoisieheure  reche", datechoisieheure);
+    // console.log("datechoisieheure  reche", datechoisieheure);
     document.getElementById("d-debut").value = new Date(
       datechoisieheure
     ).toLocaleString();
@@ -157,25 +177,28 @@ const Recherche = () => {
     setShowCalendar(false);
   };
 
-
   //****************************************************** */
   return (
     <div>
       {showNavbar && <Navbarre id="navbar"></Navbarre>}
-      {showCalendar && (
-        <Calendar id="calencar" sendData={getData} pourqui="recherche" />
-      )}
-      <p className="h2-Recherche">Recherche d&apos;écritures </p>
 
-      <Modif
-        openModif={modifLequel}
-        onCloseModif={async () => {
-          setModifLequel("x");
-          await getJournal();
-          document.getElementById("recherche-cont").style.display = "none";
-        }}
-      ></Modif>
 
+      <div className="div-span">
+          <span className="span-annule">
+          <ul className="h2-Recherche">Recherche d&apos;écritures 
+            <button
+               className="annule"
+              onClick={() => {
+                if (!showCalendar && !showNavbar) {
+                 window.location.reload(true);
+                };
+              }}
+            >
+              X
+            </button>
+            </ul>
+          </span>
+        </div>
       <div id="depuis-container">
         <label>
           Rechercher depuis quelle date
@@ -189,6 +212,21 @@ const Recherche = () => {
           </button>
         </label>
       </div>
+
+      {showCalendar && (
+        <Calendar id="calencar" sendData={getData} pourqui="recherche" />
+      )}
+
+      <Modif
+        openModif={modifLequel}
+        onCloseModif={async () => {
+          setModifLequel("x");
+          await getJournal();
+          document.getElementById("recherche-cont").style.display = "none";
+        }}
+      ></Modif>
+
+      
 
       <div id="recherche-cont">
         <div id="bsbbva">
@@ -214,9 +252,7 @@ const Recherche = () => {
             ></input>
             BBVA
           </label>
-        </div>
 
-        <div id="budget-recherche">
           <label className="bourso-container">
             <input
               value={"M"}
@@ -227,9 +263,7 @@ const Recherche = () => {
             ></input>
             Budget
           </label>
-        </div>
 
-        <div id="pointe-container">
           <label className="bourso-container">
             <input
               value={"M"}
@@ -238,7 +272,17 @@ const Recherche = () => {
               id="pointe"
               onChange={modifPointe}
             ></input>
-            NON-Pointé
+            Pointé
+          </label>
+          <label className="bourso-container">
+            <input
+              value={"M"}
+              type="checkbox"
+              ref={checknonPointe}
+              id="nonpointe"
+              onChange={modifnonPointe}
+            ></input>
+            non-Pointé
           </label>
         </div>
 
@@ -288,23 +332,13 @@ const Recherche = () => {
             <input className="input-recherche" type="text" id="d-debut"></input>
           </label>
         </form>
-        <div className="div-span">
-          <span className="span-annule">
-            <button
-              className="annule"
-              onClick={() => {
-                if (!showCalendar && showNavbar) window.location.reload(true);
-              }}
-            >
-              X
-            </button>
-          </span>
-        </div>
+       
       </div>
-      <i id="dbl-clic">
-        Pour éditer faire : Double-click sur la valeur à modifier
-      </i>
+      
       <div id="tbch-pointage">
+      <div id="dbl-clic">
+        Pour éditer faire : Double-click sur la valeur à modifier
+      </div>
         <table className="tbc-pointage">
           <thead className="th-Recherche">
             <tr id="thr-Recherche">
@@ -353,7 +387,7 @@ const Recherche = () => {
                   <td style={{ width: 11 + "em" }}>
                     {new Date(undoc.temps).toLocaleString()}
                   </td>
-                 
+
                   <td style={{ width: 3 + "em" }}>
                     {undoc.menage === true ? "M" : " "}
                   </td>
