@@ -113,8 +113,8 @@ const Recherche = () => {
 
   useEffect(() => {
     getJournal();
-    console.log('letotal',letotal);
-    (letotal === 0) ?
+    //console.log('letotal',letotal);
+    (letotal === 0) ?//evite d'afficher la table vide
     document.getElementById("tbch-pointage").style.display = "none":
     document.getElementById("tbch-pointage").style.display = "flex";
   }, [getJournal, note,letotal]);
@@ -167,9 +167,11 @@ const Recherche = () => {
 
   const getData = (datechoisieheure) => {
     // console.log("datechoisieheure  reche", datechoisieheure);
+   
     document.getElementById("d-debut").value = new Date(
       datechoisieheure
-    ).toLocaleString();
+    ).toLocaleDateString();
+    document.getElementById("annule").style.display = 'flex';
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
     //console.log(("debut", debut));
@@ -188,13 +190,15 @@ const Recherche = () => {
           <ul className="h2-Recherche">Recherche d&apos;écritures 
             <button
                className="annule"
+               id="annule"
               onClick={() => {
-                if (!showCalendar && !showNavbar) {
-                 window.location.reload(true);
-                };
+              //   if (!showCalendar && !showNavbar) {
+              // setShowNavbar(true)
+              //   };
+              window.location.reload();
               }}
             >
-              X
+              Annuler
             </button>
             </ul>
           </span>
@@ -221,8 +225,14 @@ const Recherche = () => {
         openModif={modifLequel}
         onCloseModif={async () => {
           setModifLequel("x");
+           console.log('location',window.location.href);
+           let x = window.location.href;
           await getJournal();
           document.getElementById("recherche-cont").style.display = "none";
+          setTimeout (function() {
+           ;
+           window.location.href = x;
+          },2000)
         }}
       ></Modif>
 
@@ -385,7 +395,7 @@ const Recherche = () => {
                   <td style={{ width: 2 + "em" }}>{index + 1}</td>
                   <td style={{ width: 6 + "em" }}>{undoc.banque}</td>
                   <td style={{ width: 11 + "em" }}>
-                    {new Date(undoc.temps).toLocaleString()}
+                    {new Date(undoc.temps).toLocaleDateString()}
                   </td>
 
                   <td style={{ width: 3 + "em" }}>
@@ -398,7 +408,7 @@ const Recherche = () => {
                       textAlign: "right",
                     }}
                   >
-                    {undoc.somme}
+                    {parseFloat(undoc.somme).toFixed(2) }
                   </td>
                   <td style={{ width: 1 + "em" }}></td>
                   <td style={{ width: 3 + "em" }}>

@@ -4,10 +4,10 @@
   z-index: 1100;
   position: fixed;
   top: 195px;
-  left: 46vw;
+  left: 35vw;
   width: 404px;
-  height: 200px;
-  background: rgb(125, 131, 154,0.5);
+  height: 222px;
+  background: rgba(125, 131, 154, 0.5);
   display: flex;
   padding: 16px;
   border: solid 1px white;
@@ -26,8 +26,8 @@
   height: 95%;
 }
 .modal-tittle{
-  padding:16px;
-  background: rgb(64,70,94);
+  padding: 0px;
+  background: rgb(57 70 82);
 }
 .modal-header,
 .modal-footer {
@@ -42,14 +42,10 @@
 }
 
 .modal-body { 
-  margin-bottom: 20px;
+  margin-bottom: 49px;
   width: 95%;
-  /* display: flex; */
-  background: rgb(64, 70, 94);
-  /* padding: 6px; */
-  height: 87px;
-  /* flex-direction: row; */
-  /* justify-content: space-between; */
+  background: rgb(57 70 82);
+  height: 16px;
   align-items: center;
   color: wheat;
 }
@@ -74,6 +70,12 @@ button{
   color: black;
   border-radius: 12px;
  
+}
+#submit {
+  visibility: hidden;
+}
+#delete{
+  visibility: visible;
 }
 button:hover{
   cursor: pointer;

@@ -121,9 +121,7 @@ const Modif = (props: any) => {
         }}
       ></ListeDepenses> */}
       <div>
-        <div className="modif-msg" id="modif-msg">
-          Modification enregistrée
-        </div>
+       
         <form
           className="modif-container"
           id="modif-container"

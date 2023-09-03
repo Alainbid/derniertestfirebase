@@ -101,7 +101,7 @@ const SnapshotBenefs = () => {
         <ul className="f-li">Liste des fournisseurs</ul>
 
         <div className="depense-table">
-          <p></p>
+         
           {Benefs.map((item, index) => {
             return (
               <ul
@@ -122,6 +122,7 @@ const SnapshotBenefs = () => {
               </ul>
             );
           })}
+          <p></p>
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ const Depenses = () => {
 
   const getDepenses = async () => {
     try{
-        console.log('lire BD');
+       // console.log('lire BD');
           const data = await getDocs(
             query(depensesCollectionRef, orderBy("nature"))
           );
@@ -92,7 +92,7 @@ const Depenses = () => {
         <ul className="f-li">Types de dépenses</ul>
 
         <div className="depense-table">
-          <p></p>
+       
           {Depenses.map((item, index) => {
             return (
               <ul
@@ -115,6 +115,7 @@ const Depenses = () => {
               </ul>
             );
           })}
+          <p></p>
         </div>
       </div>
     </div>

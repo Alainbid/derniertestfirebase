@@ -1,9 +1,4 @@
-.f-li{
-  background: #252c33;
-  text-decoration: none;
-  font-size: 1.6rem;
-  margin-top: 20px;
-}
+
  .depense-container {
   min-width: 800px;
   display: flex;
@@ -13,7 +8,13 @@
   align-items: center;
   
 }
-
+.f-li{
+  margin-top: 1px;
+  margin-bottom: 1px;
+  background: #252c33;
+  text-decoration: none;
+  font-size: 1.6rem;
+}
 .depense-table {
   z-index: 1000;
   min-width: 426px;
@@ -28,12 +29,11 @@
   align-items: flex-start;
 }
 .depense-ligne {
-  margin-bottom: 1px;
+  margin-bottom: -5px;
   margin-left: 62px;
   color: wheat;
   background-color: #394652;
-
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 .depense-ligne:hover {
   cursor: pointer;

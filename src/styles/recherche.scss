@@ -1,6 +1,18 @@
 #btn-valid {
   margin: auto;
 }
+.annule {
+  padding: 7px;
+  background: #43403d;
+  color: #d4caca;
+  font-size: 1.4rem;
+  margin-left: 104px;
+  font-weight: 400;
+}
+#annule{
+  display:none;
+}
+
 .h2-Recherche {
   display: flex;
   font-size: 2rem;
@@ -117,10 +129,4 @@ tr :hover {
 .lancer :hover {
   background-color: whitesmoke;
 }
-.annule {
-  background: #43403d;
-  color: #d4caca;
-  font-size: 2.4rem;
-  margin-left: 55px;
-  font-weight: 400;
-}
+

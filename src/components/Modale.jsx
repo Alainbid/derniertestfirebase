@@ -3,11 +3,16 @@ import "../styles/modal.scss";
 import PropTypes from "prop-types";
 
 const Modale = (props) => {
-  const [leTexte, setLeText] = useState("???");
+  const [leTexte, setLeText] = useState('???');
 
   const changement = (e) => {
     setLeText(e.target.value);
+    document.getElementById('submit').style.visibility='visible'
+    document.getElementById('delete').style.visibility='hidden'
+    console.log('letexte', leTexte);
   };
+
+  
 
   if (!props.open) return null;
 
@@ -27,37 +32,44 @@ const Modale = (props) => {
             className="input-text"
             id="in-text"
             defaultValue={props.leQuel}
-            onInput={changement}
-          />
+            // onChange={changement}
+             onInput={changement}
+          
+            />
         </div>
+
         <div className="modal-footer">
-          <button className="button-annuler" onClick={props.onClose}>
-            Annuler
+         
+          <button
+            type="submit"
+            id="submit"
+            className="button-valid"
+            onClick={(event) => {console.log('avant lequel', leTexte);
+              event.preventDefault();
+              setLeText(document.getElementById("in-text").value);
+              console.log('leteste',leTexte);
+             
+              if(leTexte !== ''){
+              props.onValider(leTexte);
+              setLeText("");}
+            }}
+          
+              >
+             Valider
           </button>
 
           <button
-            type="submit"
-            className="button-valid"
-            onClick={(event) => {
-              event.preventDefault();
-              setLeText(document.getElementById("in-text").value);
-              props.onValider(leTexte);
-              setLeText("");
-            }}
-          >
-            {leTexte !== "" ? "Valider" : "Modifier"}
-          </button>
-          <button
             className="button-delete"
+            id="delete"
             onClick={(event) => {
               event.preventDefault();
               const x = document.getElementById("in-text").value;
               //console.log(" delete  = ", x);
               props.onDelete(x);
-            }}
-          >
+            }}  >
             Supprimer
           </button>
+
           <button
             className="button-ajouter"
             onClick={(event) => {
@@ -65,10 +77,14 @@ const Modale = (props) => {
               const x = document.getElementById("in-text").value;
               // console.log(" ajouter  = ", x);
               props.onAjouter(x);
-            }}
-          >
+            }}  >
             Ajouter
           </button>
+
+          <button className="button-annuler" onClick={props.onClose}>
+            Annuler
+          </button>
+
         </div>
       </div>
     </div>
