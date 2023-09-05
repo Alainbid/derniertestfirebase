@@ -7,9 +7,6 @@ import Calendar from "../components/Calendrier";
 import Modif from "../components/Modif.tsx";
 
 import {
-  // doc,
-  // updateDoc,
-  //getDoc,
   collection,
   getDocs,
   query,
@@ -19,8 +16,6 @@ import {
   endAt,
   startAt,
 } from "firebase/firestore";
-
-//console.log("journalCollectionRef.", journalCollectionRef.type);
 
 const Recherche = () => {
   const [laListe, setLaListe] = useState([{}]);
@@ -90,14 +85,13 @@ const Recherche = () => {
 
     let lequery = query(collection(db, "cfbjournal"), ...conditions);
     try {
-      var total = 0;
+      var total = 0.0;
       const data = await getDocs(lequery);
       data.forEach((element) => {
-        total += element.data().somme;
+        total += element.data().somme * 100;
       });
-      total = parseInt(total * 100);
-      setLetotal(parseFloat(total / 100));
-     
+      setLetotal(total / 100);
+
       setLaListe(
         data.docs.map((ledoc, index) => ({ ...ledoc.data(), id: ledoc.id }))
       );
@@ -113,11 +107,10 @@ const Recherche = () => {
 
   useEffect(() => {
     getJournal();
-    //console.log('letotal',letotal);
-    (letotal === 0) ?//evite d'afficher la table vide
-    document.getElementById("tbch-pointage").style.display = "none":
-    document.getElementById("tbch-pointage").style.display = "flex";
-  }, [getJournal, note,letotal]);
+    letotal === 0 //evite d'afficher la table vide
+      ? (document.getElementById("tbch-pointage").style.display = "none")
+      : (document.getElementById("tbch-pointage").style.display = "flex");
+  }, [getJournal, note, letotal]);
 
   const modifBanque = () => {
     let bso = checkBou.current.checked;
@@ -167,11 +160,11 @@ const Recherche = () => {
 
   const getData = (datechoisieheure) => {
     // console.log("datechoisieheure  reche", datechoisieheure);
-   
+
     document.getElementById("d-debut").value = new Date(
       datechoisieheure
     ).toLocaleDateString();
-    document.getElementById("annule").style.display = 'flex';
+    document.getElementById("annule").style.display = "flex";
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
     //console.log(("debut", debut));
@@ -184,25 +177,25 @@ const Recherche = () => {
     <div>
       {showNavbar && <Navbarre id="navbar"></Navbarre>}
 
-
       <div className="div-span">
-          <span className="span-annule">
-          <ul className="h2-Recherche">Recherche d&apos;écritures 
+        <span className="span-annule">
+          <ul className="h2-Recherche">
+            Recherche d&apos;écritures
             <button
-               className="annule"
-               id="annule"
+            
+              className="annule"
+              id="annule"
               onClick={() => {
-              //   if (!showCalendar && !showNavbar) {
-              // setShowNavbar(true)
-              //   };
-              window.location.reload();
+                document.getElementById("recherche-cont").style.visibility ="hidden";
+                document.getElementById("tbch-pointage").style.visibility ="hidden";
+                window.location.reload();
               }}
             >
               Annuler
             </button>
-            </ul>
-          </span>
-        </div>
+          </ul>
+        </span>
+      </div>
       <div id="depuis-container">
         <label>
           Rechercher depuis quelle date
@@ -225,18 +218,15 @@ const Recherche = () => {
         openModif={modifLequel}
         onCloseModif={async () => {
           setModifLequel("x");
-           console.log('location',window.location.href);
-           let x = window.location.href;
+          console.log("location", window.location.href);
+          let x = window.location.href;
           await getJournal();
           document.getElementById("recherche-cont").style.display = "none";
-          setTimeout (function() {
-           ;
-           window.location.href = x;
-          },2000)
+          setTimeout(function () {
+            window.location.href = x;
+          }, 2000);
         }}
       ></Modif>
-
-      
 
       <div id="recherche-cont">
         <div id="bsbbva">
@@ -342,13 +332,12 @@ const Recherche = () => {
             <input className="input-recherche" type="text" id="d-debut"></input>
           </label>
         </form>
-       
       </div>
-      
+
       <div id="tbch-pointage">
-      <div id="dbl-clic">
-        Pour éditer faire : Double-click sur la valeur à modifier
-      </div>
+        <div id="dbl-clic">
+          Pour éditer cliquer sur la valeur à modifier
+        </div>
         <table className="tbc-pointage">
           <thead className="th-Recherche">
             <tr id="thr-Recherche">
@@ -383,7 +372,7 @@ const Recherche = () => {
             {laListe.map((undoc, index) => {
               return (
                 <tr
-                  onDoubleClick={(event) => {
+                  onClick={(event) => {
                     event.preventDefault();
                     document.getElementById("recherche-cont").style.display =
                       "none";
@@ -408,7 +397,7 @@ const Recherche = () => {
                       textAlign: "right",
                     }}
                   >
-                    {parseFloat(undoc.somme).toFixed(2) }
+                    {parseFloat(undoc.somme).toFixed(2)}
                   </td>
                   <td style={{ width: 1 + "em" }}></td>
                   <td style={{ width: 3 + "em" }}>

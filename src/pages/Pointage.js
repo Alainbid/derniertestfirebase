@@ -32,12 +32,12 @@ const Pointage = () => {
     try {
       const data = await getDocs(lequery);
       //console.log("data", data.docs);
-      var total = 0;
+      var total = 0.00;
       data.forEach((element) => {
-        total += element.data().somme;
+        total += (element.data().somme * 100);
       });
-      total = parseInt(total * 100);
-      setLeTotal(parseFloat(total / 100).toLocaleString("de-DE"));
+       setLeTotal (total/100);
+
       setLaListe(data.docs.map((ledoc) => ({ ...ledoc.data(), id: ledoc.id })));
       
     } catch (error) {
@@ -68,9 +68,7 @@ const Pointage = () => {
   const conformer = (vam) => {
     // console.log("vam",vam);
     if (vam === undefined) return null;
-    let x = parseFloat(vam);
-    let z = x.toFixed(2);
-    return z;
+    return parseFloat(vam).toFixed(2);
   };
 
   const modifBanque = (e) => {
@@ -107,7 +105,7 @@ const Pointage = () => {
       </div>
 
       <i className="pt-total" style={{ textJustify: "center" }}>
-        Pour pointer faire : Double-click sur la valeur de la colonne &quot;Montant&quot;
+        Pour pointer cliquer sur la valeur de la colonne &quot;Montant&quot;
       </i>
 
       <div>
@@ -148,7 +146,7 @@ const Pointage = () => {
                     id="td-l-point"
                     style={{ width: 11 + "em", background: "#69c88210" }}
                   >
-                    {new Date(undoc.temps).toLocaleString()}
+                    {new Date(undoc.temps).toLocaleDateString()}
                   </td>
                   <td
                     id="td-l-point"
@@ -159,7 +157,7 @@ const Pointage = () => {
 
                   <td
                     id="td-l-pointeur"
-                    onDoubleClick={(e) => {
+                    onClick={(e) => {
                       e.preventDefault();
                       updatePointage(undoc.id);
                     }}
@@ -223,6 +221,7 @@ const Pointage = () => {
               <td
                 id="td-l-point"
                 style={{
+                  color: letotal < 0 ? "red" : "green",
                   width: 7 + "em",
                   textAlign: "right",
                   fontSize: "1.5rem",
@@ -237,7 +236,7 @@ const Pointage = () => {
                 id="td-l-point"
                 style={{
                   width: 12 + "em",
-                  color: "red",
+                  color: letotal < 0 ? "red" : "green",
                   textAlign: "right",
                   fontSize: "1.2rem",
                 }}
