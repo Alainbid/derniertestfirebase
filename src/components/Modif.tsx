@@ -2,12 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../pages/Firebasefirestore";
 import "../styles/modif.scss";
-//import ListeDepenses from "./Listedepenses";
-import PropTypes, {} from "prop-types";
+import PropTypes from "prop-types";
 
 const Modif = (props: any) => {
   const docRef = doc(db, "cfbjournal", props.openModif);
-  const [somme, setSomme] = useState(0);
+  const [somme, setSomme] = useState("");
   const [banque, setBanque] = useState("");
   const [nature, setNature] = useState("");
   const [benef, setBenef] = useState("");
@@ -16,8 +15,11 @@ const Modif = (props: any) => {
   const [menage, setMenage] = useState(true);
   const [pointe, setPointe] = useState(false);
   const [date, setDate] = useState("01/01/2023");
-  //const [setShowListDepenses] = useState(false);
-  //const [listPosition] = useState([0, 0]);
+  var lebenef:string = benef;
+  var lenature:string = nature;
+  var lenote:string = note;
+  var lesomme:string = (somme);
+
 
   const getDocument = useCallback(async () => {
     if (props.openModif !== "x") {
@@ -25,7 +27,7 @@ const Modif = (props: any) => {
 
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-       // console.log("data", docSnap.data());
+        // console.log("data", docSnap.data());
         setSomme(docSnap.get("somme"));
         setBanque(docSnap.get("banque"));
         setNature(docSnap.get("nature"));
@@ -40,6 +42,7 @@ const Modif = (props: any) => {
         alert("document inconnu");
       }
     }
+   
   }, [docRef, props.openModif]);
 
   useEffect(() => {
@@ -48,29 +51,36 @@ const Modif = (props: any) => {
 
   const modifBanque = async (e: any) => {
     let x = e.target.value.toUpperCase();
-    await setBanque(x);
+    setBanque(x);
     await updateDoc(docRef, { banque: x });
   };
 
-  const modifSomme = async (e: any) => {
-    setSomme(e.target.value);
-    await updateDoc(docRef, { somme: e.target.value });
+  const modifSomme =  (e: any) => {
+    lesomme = e.target.value;
+    // setSomme(e.target.value);
+    //  updateDoc(docRef, { somme: e.target.value });
   };
 
-  const modifNature = async (e: any) => {
-    setNature(e.target.value);
-    await updateDoc(docRef, { nature: e.target.value });
-    // document.getElementById("recherche-cont")!!.style.display = "none";
+  const modifNature = (e: any) => {
+    lenature = e.target.value;
+  //  setNature(e.target.value);
+  //    updateDoc(docRef, { nature: e.target.value });
   };
 
-  const modifBenef = async (e: any) => {
-    setBenef(e.target.value);
-    await updateDoc(docRef, { benef: e.target.value });
+  const modifBenef =  (e: any) => {
+    console.log('value',e.target.value);
+  lebenef = e.target.value;
+   
+    console.log('lebenef',lebenef);
+  
+    
+     //updateDoc(docRef, { benef: e.target.value });
   };
 
-  const modifNote = async (e: any) => {
-    setNote(e.target.value);
-    await updateDoc(docRef, { note: e.target.value });
+  const modifNote =  (e: any) => {
+    lenote = e.target.value;
+    // setNote(e.target.value);
+    //  updateDoc(docRef, { note: e.target.value });
   };
 
   const modifMenage = async (e: any) => {
@@ -91,41 +101,25 @@ const Modif = (props: any) => {
   const modifMode = async (e: any) => {
     setMode(e.target.value);
     await updateDoc(docRef, { mode: e.target.value });
-
   };
 
   const onDelete = async () => {
     await deleteDoc(docRef);
-    console.log("docref",docRef);
-    
+    console.log("docref", docRef);
+
     props.onCloseModif();
   };
-
-
 
   if (props.openModif === "x") return null;
 
   //******************************************************* */
   return (
     <div>
-      {/* <ListeDepenses
-        //  open={showListDepenses}
-        open={""}
-        onClose={() => {
-          //setShowListDepenses(false);
-        }}
-        posdex={listPosition[0]}
-        posdey={listPosition[1]}
-        onValider={(lequel) => {
-          modifNature(lequel);
-        }}
-      ></ListeDepenses> */}
+   
       <div>
-       
         <form
           className="modif-container"
           id="modif-container"
-          autoComplete="off"
         >
           <label className="modif-label">
             Banque
@@ -136,60 +130,60 @@ const Modif = (props: any) => {
                 modifBanque(event);
               }}
               type="text"
-              value={banque}
+              defaultValue={banque}
             ></input>
           </label>
-          <label className="modif-label">
-            Somme
-            <input
-              className="modif-saisie"
-              onChange={(event) => {
-                modifSomme(event);
-              }}
-              type="number"
-              id="somme"
-              value={somme}
-            ></input>
-          </label>
-          <label className="modif-label">
-            Dépense
-            <input
-              className="modif-saisie"
-              // onClick={(event) => {
-              //   setListPosition([event.clientX - 200, event.clientY - 270]);
-              //   setShowListDepenses(false);
-              // }}
-              onChange={(event) => {
-                modifNature(event);
-              }}
-              type="text"
-              id="nature"
-              value={nature}
-            ></input>
-          </label>
-          <label className="modif-label">
-            Fournisseur
-            <input
-              className="modif-saisie"
-              onChange={(event) => modifBenef(event)}
-              type="text"
-              id="benef"
-              value={benef}
-            ></input>
-          </label>
-          <label className="modif-label">
-            Note
-            <input
-              className="modif-saisie"
-              onChange={(event) => {
-                modifNote(event);
-              }}
-              autoComplete="off"
-              type="text"
-              id="note"
-              value={note}
-            ></input>
-          </label>
+
+         
+            <label className="modif-label">
+              Somme
+              <input
+                className="modif-saisie"
+                onChange={(event) => {
+                  modifSomme(event);
+                }}
+                type="number"
+                id="somme"
+                defaultValue={somme}
+              ></input>
+            </label>
+
+            <label className="modif-label">
+              Dépense
+              <input
+                className="modif-saisie"
+                onChange={(event) => modifNature(event)}
+                type="text"
+                id="nature"
+                defaultValue={nature}
+              ></input>
+            </label>
+
+            <label className="modif-label">
+              Fournisseur
+              <input
+                className="modif-saisie"
+                 onChange={(event) => modifBenef(event)}
+                type="text"
+                id="benef"
+                defaultValue={benef}
+              ></input>
+            </label>
+
+            <label className="modif-label">
+              Note
+              <input
+                className="modif-saisie"
+                onChange={(event) => {
+                  modifNote(event);
+                }}
+                autoComplete="off"
+                type="text"
+                id="note"
+                defaultValue={note}
+              ></input>
+            </label>
+
           <label className="modif-label">
             Budget
             <input
@@ -209,6 +203,7 @@ const Modif = (props: any) => {
               onChange={(event) => {
                 modifPointe(event);
               }}
+             
               type="checkBox"
               id="pointe"
               checked={pointe === true}
@@ -276,17 +271,22 @@ const Modif = (props: any) => {
         </form>
         <p></p>
         <div className="modif-btn">
-          <button type="button" className="modif-button" 
-          onClick={onDelete}>
+          <button type="button" className="modif-button" onClick={onDelete}>
             Supprimer l&apos;écriture
           </button>
           <button
             type="button"
-            id="btn-cancel"
+            // id="btn-cancel"
             className="modif-button"
-            onClick = {() =>{
+            onClick={async() => {
+            
+            await  updateDoc(docRef, { benef: lebenef , nature : lenature , note : lenote , somme : lesomme });
               props.onCloseModif();
-            }} >
+         
+   
+            }}
+            
+          >
             Valider
           </button>
         </div>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import "../styles/recherche.scss";
-// import "../styles/togglebtn.scss";
 import Navbarre from "../components/Navbar";
 import { db } from "../pages/Firebasefirestore";
 import Calendar from "../components/Calendrier";
@@ -19,7 +18,6 @@ import {
 
 const Recherche = () => {
   const [laListe, setLaListe] = useState([{}]);
-  //  const [isActive] = useState(null | 0);
   const [banque, setBanque] = useState("");
   const [pointe, setPointe] = useState(false);
   const [nonpointe, setnonPointe] = useState(false);
@@ -29,7 +27,6 @@ const Recherche = () => {
   const [note, setNote] = useState("");
   const [nature, setNature] = useState("");
   const [benef, setBenef] = useState("");
-  // const [setDebut] = useState(1400000000000);
   //const [fin] = useState(new Date("2050/12/30").getTime());
   const [fin] = useState(2555580680000);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -167,8 +164,6 @@ const Recherche = () => {
     document.getElementById("annule").style.display = "flex";
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
-    //console.log(("debut", debut));
-    //console.log("document.d-debut", document.getElementById("d-debut").value);
     setShowCalendar(false);
   };
 
@@ -182,12 +177,13 @@ const Recherche = () => {
           <ul className="h2-Recherche">
             Recherche d&apos;écritures
             <button
-            
               className="annule"
               id="annule"
               onClick={() => {
-                document.getElementById("recherche-cont").style.visibility ="hidden";
-                document.getElementById("tbch-pointage").style.visibility ="hidden";
+                document.getElementById("recherche-cont").style.visibility =
+                  "hidden";
+                document.getElementById("tbch-pointage").style.visibility =
+                  "hidden";
                 window.location.reload();
               }}
             >
@@ -224,7 +220,7 @@ const Recherche = () => {
           document.getElementById("recherche-cont").style.display = "none";
           setTimeout(function () {
             window.location.href = x;
-          }, 2000);
+          }, 3000);
         }}
       ></Modif>
 
@@ -247,7 +243,6 @@ const Recherche = () => {
               value="BBVA"
               type="checkbox"
               ref={checkBva}
-              //checked={banque === "BBVA"}
               onChange={modifBanque}
             ></input>
             BBVA
@@ -258,7 +253,6 @@ const Recherche = () => {
               value={"M"}
               type="checkbox"
               ref={checkMenage}
-              // checked={menage === true}
               onChange={modifMenage}
             ></input>
             Budget
@@ -335,9 +329,7 @@ const Recherche = () => {
       </div>
 
       <div id="tbch-pointage">
-        <div id="dbl-clic">
-          Pour éditer cliquer sur la valeur à modifier
-        </div>
+        <div id="dbl-clic">Pour éditer cliquer sur la valeur à modifier</div>
         <table className="tbc-pointage">
           <thead className="th-Recherche">
             <tr id="thr-Recherche">
@@ -356,7 +348,7 @@ const Recherche = () => {
                   className="r-total"
                   style={{ color: letotal < 0 ? "red" : "green" }}
                 >
-                  total {letotal}
+                  total {letotal.toFixed(2)}
                 </i>
               </th>
               <th style={{ width: 1 + "em" }}></th>

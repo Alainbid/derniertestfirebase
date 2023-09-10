@@ -241,7 +241,7 @@ const Pointage = () => {
                   fontSize: "1.2rem",
                 }}
               >
-                {letotal}€{" "}
+                {letotal.toFixed(2)}
               </td>
             </tr>
           </tbody>

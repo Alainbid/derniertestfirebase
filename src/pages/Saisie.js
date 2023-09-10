@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Navbarre from "../components/Navbar";
-import Calendar from "../components/Calendrier"
+import Calendar from "../components/Calendrier";
 import "../styles/saisie.scss";
 import { db } from "../pages/Firebasefirestore";
 import { collection, addDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
-import ListeDepenses from "../components/Listedepenses"
+import ListeDepenses from "../components/Listedepenses";
 
 function Saisie() {
   const journalCollectionRef = collection(db, "cfbjournal");
@@ -22,8 +22,7 @@ function Saisie() {
   const [natureDepense, setNatureDepense] = useState("");
   const [quiBenef, setQuiBenef] = useState("");
 
-
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     //console.log("somme",somme);
     if (somme !== "") {
       data.new = false;
@@ -37,9 +36,10 @@ function Saisie() {
       data.date = temps;
       data.nature = natureDepense;
       data.benef = quiBenef;
-  
-     await addDoc(journalCollectionRef, data);
-          console.log("data", data);
+      
+
+      await addDoc(journalCollectionRef, data);
+      console.log("data", data);
     }
     annuler();
   };
@@ -61,43 +61,41 @@ function Saisie() {
 
   const getData = (ladateh) => {
     document.getElementById("saisie-container").style.display = "revert";
-   console.log("dat",ladateh);
-  
+    console.log("dat", ladateh);
     setTemps(ladateh);
     setShowCalendar(false);
-     setNavHidden(false);
+    setNavHidden(false);
   };
 
   const annuler = () => {
     window.location.reload(true);
   };
 
-  
   const choixDepBenef = useCallback(() => {
     document.getElementById("nature").value = natureDepense;
     document.getElementById("benef").value = quiBenef;
-  },[natureDepense,quiBenef]);
+  }, [natureDepense, quiBenef]);
 
   useEffect(() => {
     choixDepBenef();
   }, [choixDepBenef]);
-
 
   return (
     <div id="app">
       {navHidden ? <Navbarre></Navbarre> : null}
 
       <h1 id="h1-saisie">Saisie d&apos;écritures</h1>
-      {showCalendar && <Calendar id="calencar" pourqui={'saisie' }
-       sendData={getData} />}
+      {showCalendar && (
+        <Calendar id="calencar" pourqui={"saisie"} sendData={getData} />
+      )}
       <ListeDepenses
         open={showListdepbenef}
-        onValider={(x,qui) => {
-          (qui === "benef") ? setQuiBenef(x) : setNatureDepense(x) ;
-           console.log("x",x);
+        onValider={(x, qui) => {
+          qui === "benef" ? setQuiBenef(x) : setNatureDepense(x);
+          console.log("x", x);
         }}
         onClose={() => {
-          setShowListdepbenef('');
+          setShowListdepbenef("");
         }}
         posdex={listDepPosition[0]}
         posdey={listDepPosition[1]}
@@ -195,16 +193,14 @@ function Saisie() {
             <label className="label-saisie">
               Dépense
               <input
-            
                 className="input-saisie"
-               // {...register("nature")}
+                // {...register("nature")}
                 type="text"
                 id="nature"
                 onClick={(event) => {
-                 
                   event.preventDefault();
-                  setListDepBenPosition([event.clientX, event.clientY-200]);
-                  setShowListdepbenef('depense');
+                  setListDepBenPosition([event.clientX, event.clientY - 200]);
+                  setShowListdepbenef("depense");
                 }}
               ></input>
             </label>
@@ -218,8 +214,8 @@ function Saisie() {
                 id="benef"
                 onClick={(event) => {
                   event.preventDefault();
-                  setListDepBenPosition([event.clientX, event.clientY-250]);
-                  setShowListdepbenef('benef');
+                  setListDepBenPosition([event.clientX, event.clientY - 250]);
+                  setShowListdepbenef("benef");
                 }}
               ></input>
             </label>
