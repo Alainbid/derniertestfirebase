@@ -38,7 +38,13 @@ const SnapshotBenefs = () => {
       console.log("Erreur ",error);
   }};
 
-
+  const dimmer = ( (couleur) => {
+    var x = document.getElementsByClassName('depense-ligne');
+    var i;
+    for (i = 0; i < x.length; i++) {
+     x[i].style.color = couleur;
+    }
+ });
 
   //**********  MODIFIER ********** */
   const modifier = async (x) => {
@@ -79,7 +85,9 @@ const SnapshotBenefs = () => {
       {
         <Modale
           open={showModal}
-          onClose={() => setShowModal(false)}
+          onClose={() => {setShowModal(false);
+        dimmer('#f5deb3');
+        }}
           posdex={modalPosition[0]}
           posdey={modalPosition[1]}
           leQuel={naturebenefs}
@@ -108,12 +116,14 @@ const SnapshotBenefs = () => {
                 className="depense-ligne"
                 key={item.id}
                 onClick={(event) => {
+                  dimmer('#f5deb375');
                   event.preventDefault();
                   // console.log(" x ", event.clientX, "   y = ", event.clientY);
                   setModalPosition([event.clientX, event.clientY]);
                   setNaturebenefs(item.qui);
                   setIdItem(item.id);
                   setShowModal(true);
+                  //document.getElementsByClassName('depense-table').style.pointerEvents ='none'
                 }}
               >
                 {/* pour mettre un 0 si de 1 à 9 */}

@@ -63,6 +63,14 @@ const Depenses = () => {
     getDepenses();
     setShowModal(false);
   };
+const dimmer = ( (couleur) => {
+   var x = document.getElementsByClassName('depense-ligne');
+   var i;
+   for (i = 0; i < x.length; i++) {
+    x[i].style.color = couleur;
+   }
+});
+
 
 //pour actualiser la table au début
   if (Depenses[0]  === undefined) getDepenses();
@@ -73,7 +81,9 @@ const Depenses = () => {
 
       <Modale
         open={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={() => {setShowModal(false);
+        dimmer('#f5deb3');
+        }}
         posdex={modalPosition[0]}
         posdey={modalPosition[1]}
         leQuel={natureDepenses}
@@ -92,13 +102,15 @@ const Depenses = () => {
         <ul className="f-li">Types de dépenses</ul>
 
         <div className="depense-table">
-       
+        
           {Depenses.map((item, index) => {
             return (
               <ul
                 className="depense-ligne"
                 key={item.id}
                 onClick={(event) => {
+                  dimmer('#f5deb375');
+
                   event.preventDefault();
                   // console.log(" x ", event.clientX, "   y = ", event.clientY);
                   setModalPosition([event.clientX, event.clientY]);
@@ -118,7 +130,8 @@ const Depenses = () => {
           <p></p>
         </div>
       </div>
-    </div>
+      </div>
+    
   );
 };
 

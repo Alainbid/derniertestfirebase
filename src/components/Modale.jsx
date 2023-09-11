@@ -16,6 +16,14 @@ const Modale = (props) => {
     setbtnLabel("Supprimer");
   };
 
+  const redimmer = ( () => {
+    var x = document.getElementsByClassName('depense-ligne');
+    var i;
+    for (i = 0; i < x.length; i++) {
+     x[i].style.color = "#fafb9e";
+    }
+ });
+
   if (!props.open) return null;
 
   return (
@@ -23,7 +31,7 @@ const Modale = (props) => {
     <div className="modal-overlay" id="modal-cont">
       <div className="modal-content">
         <div className="modal-header">
-          <h4 className="modal-tittle"> Modifier la liste </h4>
+          <t className="modal-tittle"> Modifier la liste </t>
         </div>
 
         <div className="modal-body">
