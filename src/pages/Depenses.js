@@ -24,17 +24,17 @@ const Depenses = () => {
   const [modalPosition, setModalPosition] = useState([0, 0]);
 
   const getDepenses = async () => {
-    try{
-       // console.log('lire BD');
-          const data = await getDocs(
-            query(depensesCollectionRef, orderBy("nature"))
-          );
-          setDepenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      
-        }catch (error){
-      alert('erreur de connexion',error);
-        console.log("Erreur ",error);
-    }};
+    try {
+      // console.log('lire BD');
+      const data = await getDocs(
+        query(depensesCollectionRef, orderBy("nature"))
+      );
+      setDepenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    } catch (error) {
+      alert("erreur de connexion", error);
+      console.log("Erreur ", error);
+    }
+  };
 
   //**********  MODIFIER ********** */
   const modifier = async (x) => {
@@ -44,6 +44,7 @@ const Depenses = () => {
     const lequel = doc(depensesCollectionRef, idItem);
     await updateDoc(lequel, data);
     getDepenses();
+    dimmer("#f5deb3");
     setShowModal(false);
   };
 
@@ -52,6 +53,7 @@ const Depenses = () => {
     await deleteDoc(lequel);
     // console.log("item ", lequel);
     getDepenses();
+    dimmer("#f5deb3");
     setShowModal(false);
   };
 
@@ -61,19 +63,21 @@ const Depenses = () => {
       nature: newItem,
     });
     getDepenses();
+    dimmer("#f5deb3");
     setShowModal(false);
   };
-const dimmer = ( (couleur) => {
-   var x = document.getElementsByClassName('depense-ligne');
-   var i;
-   for (i = 0; i < x.length; i++) {
-    x[i].style.color = couleur;
-   }
-});
 
+  
+  const dimmer = (couleur) => {
+    var x = document.getElementsByClassName("depense-ligne");
+    var i;
+    for (i = 0; i < x.length; i++) {
+      x[i].style.color = couleur;
+    }
+  };
 
-//pour actualiser la table au début
-  if (Depenses[0]  === undefined) getDepenses();
+  //pour actualiser la table au début
+  if (Depenses[0] === undefined) getDepenses();
 
   return (
     <div>
@@ -81,8 +85,9 @@ const dimmer = ( (couleur) => {
 
       <Modale
         open={showModal}
-        onClose={() => {setShowModal(false);
-        dimmer('#f5deb3');
+        onClose={() => {
+          setShowModal(false);
+          dimmer("#f5deb3");
         }}
         posdex={modalPosition[0]}
         posdey={modalPosition[1]}
@@ -102,14 +107,13 @@ const dimmer = ( (couleur) => {
         <ul className="f-li">Types de dépenses</ul>
 
         <div className="depense-table">
-        
           {Depenses.map((item, index) => {
             return (
               <ul
                 className="depense-ligne"
                 key={item.id}
                 onClick={(event) => {
-                  dimmer('#f5deb375');
+                  dimmer("#f5deb385");
 
                   event.preventDefault();
                   // console.log(" x ", event.clientX, "   y = ", event.clientY);
@@ -130,8 +134,7 @@ const dimmer = ( (couleur) => {
           <p></p>
         </div>
       </div>
-      </div>
-    
+    </div>
   );
 };
 

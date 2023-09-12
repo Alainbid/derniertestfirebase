@@ -55,6 +55,7 @@ const SnapshotBenefs = () => {
     const lequel = doc(benefsCollectionRef, idItem);
     await updateDoc(lequel, data);
     getBenefs();
+    dimmer("#f5deb3");
     setShowModal(false);
   };
 
@@ -63,6 +64,7 @@ const SnapshotBenefs = () => {
     await deleteDoc(lequel);
     // console.log("item ", lequel);
     getBenefs();
+    dimmer("#f5deb3");
     setShowModal(false);
   };
 
@@ -72,6 +74,7 @@ const SnapshotBenefs = () => {
       qui: newItem,
     });
     getBenefs();
+    dimmer("#f5deb3");
     setShowModal(false);
   };
 

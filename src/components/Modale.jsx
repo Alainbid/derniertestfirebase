@@ -16,19 +16,12 @@ const Modale = (props) => {
     setbtnLabel("Supprimer");
   };
 
-  const redimmer = ( () => {
-    var x = document.getElementsByClassName('depense-ligne');
-    var i;
-    for (i = 0; i < x.length; i++) {
-     x[i].style.color = "#fafb9e";
-    }
- });
 
   if (!props.open) return null;
 
   return (
     // <div className="modal-overlay" style={top= {posdex}}>
-    <div className="modal-overlay" id="modal-cont">
+    <div className="modal-overlay" id="modal-cont" data-keyboard="false" data-backdrop="static">
       <div className="modal-content">
         <div className="modal-header">
           <t className="modal-tittle"> Modifier la liste </t>
