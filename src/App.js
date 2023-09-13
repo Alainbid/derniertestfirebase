@@ -4,7 +4,7 @@ import Fournisseurs from "./pages/Fournisseurs";
 import Recherche from "./pages/Recherche.jsx";
 import Pointage from './pages/Pointage'
 import Saisie from "./pages/Saisie";
-// import Saisie   from './pages/Saisie.js';
+
 import NotFound from "./pages/NotFound.tsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
