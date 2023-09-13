@@ -165,7 +165,8 @@ const Pointage = () => {
                       width: 10 + "em",
                       textAlign: "right",
                       color: undoc.somme < 0 ? "red" : "green",
-                      background: "#69c88210",
+                      background: "#e9efeba6",
+                      fontWeight: 500
                     }}
                   >
                     {conformer(undoc.somme)}
