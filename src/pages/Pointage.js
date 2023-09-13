@@ -152,7 +152,7 @@ const Pointage = () => {
                     id="td-l-point"
                     style={{ width: 2.5 + "em", background: "#69c88210" }}
                   >
-                    {undoc.menage === true ? " M" : " "}{" "}
+                    {undoc.menage === true ? " M " : " "}{" "}
                   </td>
 
                   
