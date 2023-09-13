@@ -24,7 +24,7 @@ const Modale = (props) => {
     <div className="modal-overlay" id="modal-cont" data-keyboard="false" data-backdrop="static">
       <div className="modal-content">
         <div className="modal-header">
-          <t className="modal-tittle"> Modifier LA LISTE </t>
+          <t className="modal-tittle"> Modifier la liste</t>
         </div>
 
         <div className="modal-body">
