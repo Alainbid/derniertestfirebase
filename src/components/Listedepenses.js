@@ -9,10 +9,8 @@ import {
   orderBy,
 } from "firebase/firestore";
 
-
 const ListeDepenses = (props) => {
   const [liste, setListe] = useState([]);
-
   const getDepBenef =  useCallback( async () => {
     if (props.open === 'benef') {
       const data = await getDocs(query(collection(db, "benef"), orderBy("qui")));

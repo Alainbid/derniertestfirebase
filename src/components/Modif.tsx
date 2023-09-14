@@ -57,30 +57,20 @@ const Modif = (props: any) => {
 
   const modifSomme =  (e: any) => {
     lesomme = e.target.value;
-    // setSomme(e.target.value);
-    //  updateDoc(docRef, { somme: e.target.value });
   };
 
   const modifNature = (e: any) => {
     lenature = e.target.value;
-  //  setNature(e.target.value);
-  //    updateDoc(docRef, { nature: e.target.value });
   };
 
   const modifBenef =  (e: any) => {
-    console.log('value',e.target.value);
+  //  console.log('value',e.target.value);
   lebenef = e.target.value;
-   
-    console.log('lebenef',lebenef);
-  
-    
-     //updateDoc(docRef, { benef: e.target.value });
+   // console.log('lebenef',lebenef);
   };
 
   const modifNote =  (e: any) => {
     lenote = e.target.value;
-    // setNote(e.target.value);
-    //  updateDoc(docRef, { note: e.target.value });
   };
 
   const modifMenage = async (e: any) => {
@@ -279,11 +269,8 @@ const Modif = (props: any) => {
             // id="btn-cancel"
             className="modif-button"
             onClick={async() => {
-            
             await  updateDoc(docRef, { benef: lebenef , nature : lenature , note : lenote , somme : lesomme });
               props.onCloseModif();
-         
-   
             }}
             
           >
