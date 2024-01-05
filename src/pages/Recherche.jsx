@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import "../styles/recherche.scss";
 import Navbarre from "../components/Navbar";
-import { db } from "../pages/Firebasefirestore";
+import { db } from "./Firebasefirestore";
 import Calendar from "../components/Calendrier";
 import Modif from "../components/Modif.tsx";
+import MajTotalEncours from "../components/MajTotalEncours";
 
 import {
   collection,
@@ -42,7 +43,8 @@ const Recherche = () => {
   const getJournal = useCallback(async () => {
     let dat0 = document.getElementById("d-debut").value;
     dat0 = dat0.split("/");
-    let dat1 = new Date(
+
+    let dateDuJour = new Date(
       parseInt(dat0[2], 10),
       parseInt(dat0[1], 10) - 1,
       parseInt(dat0[0], 10)
@@ -51,18 +53,11 @@ const Recherche = () => {
     let conditions = [];
     if (banque !== "all") conditions.push(where("banque", "==", banque));
 
-    if (pointe && !nonpointe) {
-      conditions.push(where("pointe", "==", true));
-    }
+    if (pointe && !nonpointe) {  conditions.push(where("pointe", "==", true));  }
 
-    if (nonpointe && !pointe) {
-      conditions.push(where("pointe", "==", false));
-    }
+    if (nonpointe && !pointe) {  conditions.push(where("pointe", "==", false)); }
 
-    if (menage) {
-      conditions.push(where("menage", "==", true));
-      console.log("63", menage);
-    }
+    if (menage) {  conditions.push(where("menage", "==", true));    }
 
     if (somme !== 0) conditions.push(where("somme", "==", parseFloat(somme)));
 
@@ -72,9 +67,9 @@ const Recherche = () => {
 
     if (benef !== "") conditions.push(where("benef", "==", benef));
 
-    conditions.push(orderBy("temps", "desc"));
+    conditions.push(orderBy("date", "desc"));
     // console.log("debut de getjournal", debut);
-    conditions.push(endAt(dat1));
+    conditions.push(endAt(dateDuJour));
     conditions.push(startAt(fin)); //31/12/2050
     conditions.push(limit(100));
 
@@ -95,8 +90,8 @@ const Recherche = () => {
 
       // console.log("nombre de data", data.docs.length);
     } catch (error) {
-      alert("Erreur du query ", error);
-      console.log("Erreur du query ", error);
+      alert("Erreur du query  dans la recherche ", error);
+      console.log("Erreur du query   ", error);
     }
   }, [banque, benef, fin, pointe, nonpointe, menage, nature, somme, note]);
 
@@ -107,6 +102,7 @@ const Recherche = () => {
     letotal === 0 //evite d'afficher la table vide
       ? (document.getElementById("tbch-pointage").style.display = "none")
       : (document.getElementById("tbch-pointage").style.display = "flex");
+      
   }, [getJournal, note, letotal]);
 
   const modifBanque = () => {
@@ -158,9 +154,7 @@ const Recherche = () => {
   const getData = (datechoisieheure) => {
     // console.log("datechoisieheure  reche", datechoisieheure);
 
-    document.getElementById("d-debut").value = new Date(
-      datechoisieheure
-    ).toLocaleDateString();
+    document.getElementById("d-debut").value = new Date( datechoisieheure).toLocaleDateString();
     document.getElementById("annule").style.display = "flex";
     document.getElementById("recherche-cont").style.display = "flex";
     document.getElementById("thr-Recherche").style.display = "revert";
@@ -170,8 +164,9 @@ const Recherche = () => {
   //****************************************************** */
   return (
     <div>
+    <MajTotalEncours> </MajTotalEncours>
       {showNavbar && <Navbarre id="navbar"></Navbarre>}
-
+     
       <div className="div-span">
         <span className="span-annule">
           <ul className="h2-Recherche">
@@ -192,6 +187,7 @@ const Recherche = () => {
           </ul>
         </span>
       </div>
+      
       <div id="depuis-container">
         <label>
           Rechercher depuis quelle date
@@ -218,9 +214,11 @@ const Recherche = () => {
           let x = window.location.href;
           await getJournal();
           document.getElementById("recherche-cont").style.display = "none";
+          
+         // delais de 1s
           setTimeout(function () {
             window.location.href = x;
-          }, 3000);
+          }, 1000);
         }}
       ></Modif>
 
@@ -360,18 +358,18 @@ const Recherche = () => {
               <th style={{ width: 12 + "em" }}>Note</th>
             </tr>
           </thead>
-          <tbody id="ligne">
+          <tbody id="ligne"  >
             {laListe.map((undoc, index) => {
               return (
                 <tr
                   onClick={(event) => {
                     event.preventDefault();
-                    document.getElementById("recherche-cont").style.display =
-                      "none";
+                    document.getElementById("recherche-cont").style.display = "none";
+                    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
                     setModifLequel(undoc.id);
                   }}
                   className="tr-ligne"
-                  key={undoc.id}
+                  key={index}
                 >
                   <td style={{ width: 2 + "em" }}>{index + 1}</td>
                   <td style={{ width: 6 + "em" }}>{undoc.banque}</td>

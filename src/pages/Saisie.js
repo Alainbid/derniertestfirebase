@@ -2,18 +2,20 @@ import React, { useState, useEffect, useCallback } from "react";
 import Navbarre from "../components/Navbar";
 import Calendar from "../components/Calendrier";
 import "../styles/saisie.scss";
-import { db } from "../pages/Firebasefirestore";
-import { collection, addDoc } from "firebase/firestore";
+import { db } from "./Firebasefirestore";
+import { addDoc, collection } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import ListeDepenses from "../components/Listedepenses";
+import MajTotalEncours from "../components/MajTotalEncours";
 
 function Saisie() {
-  const journalCollectionRef = collection(db, "cfbjournal");
+  //const journalCollectionRef = collection(db, "journaltest");
+   const journalCollectionRef = collection(db, "cfbjournal");
   const [banque, setBanque] = useState("BOURSO");
   const [menage, setMenage] = useState(true);
   const [mode, setMode] = useState("Visa");
   const [temps, setTemps] = useState(0);
-  const [somme, setSomme] = useState("");
+  const [somme, setSomme] = useState(0.0);
   const [navHidden, setNavHidden] = useState(true);
   const { register, handleSubmit } = useForm();
   const [showCalendar, setShowCalendar] = useState(true);
@@ -21,9 +23,11 @@ function Saisie() {
   const [showListdepbenef, setShowListdepbenef] = useState("");
   const [natureDepense, setNatureDepense] = useState("");
   const [quiBenef, setQuiBenef] = useState("");
+  const [ setMajourTotal] = useState(false);
+
 
   const onSubmit = async (data) => {
-    //console.log("somme",somme);
+   // console.log("somme", somme);
     if (somme !== "") {
       data.new = false;
       data.numero = "";
@@ -36,12 +40,14 @@ function Saisie() {
       data.date = temps;
       data.nature = natureDepense;
       data.benef = quiBenef;
-      
 
       await addDoc(journalCollectionRef, data);
-      console.log("data", data);
+     // console.log("data", data);
     }
+   // setMajourTotal(true);
     annuler();
+    // setNavHidden(true);
+    // document.getElementById("saisie-container").style.display = 'none';
   };
 
   const handleChange = (e) => {
@@ -57,6 +63,7 @@ function Saisie() {
 
   const modifSomme = (e) => {
     setSomme(parseFloat(e.target.value));
+    document.getElementById("validation").style.display = "revert"
   };
 
   const getData = (ladateh) => {
@@ -68,8 +75,14 @@ function Saisie() {
   };
 
   const annuler = () => {
-    window.location.reload(true);
+     window.location.reload(true);
   };
+
+  const validation = () => {
+    document.getElementById("validation").style.display = "none"
+    document.getElementById("annulation").style.display = "none"
+
+  }
 
   const choixDepBenef = useCallback(() => {
     document.getElementById("nature").value = natureDepense;
@@ -82,12 +95,17 @@ function Saisie() {
 
   return (
     <div id="app">
+      
+        <MajTotalEncours></MajTotalEncours>
+     
+
       {navHidden ? <Navbarre></Navbarre> : null}
 
       <h1 id="h1-saisie">Saisie d&apos;écritures</h1>
       {showCalendar && (
         <Calendar id="calencar" pourqui={"saisie"} sendData={getData} />
       )}
+
       <ListeDepenses
         open={showListdepbenef}
         onValider={(x, qui) => {
@@ -100,6 +118,7 @@ function Saisie() {
         posdex={listDepPosition[0]}
         posdey={listDepPosition[1]}
       ></ListeDepenses>
+
       <div id="saisie-container">
         <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fdset-saisie" {...register("banque")}>
@@ -209,7 +228,7 @@ function Saisie() {
               Fournisseur
               <input
                 className="input-saisie"
-                {...register("benef")}
+                // {...register("benef")}
                 type="text"
                 id="benef"
                 onClick={(event) => {
@@ -250,14 +269,14 @@ function Saisie() {
           </p>
           <span className="btn-fin">
             {" "}
-            <button type="submit" className="btn btn-last">
+            <button  onClick = {validation} type="submit" className="btn btn-last"  id="validation" >
               Valider
-            </button>
-            <button onClick={annuler} className="btn btn-last">
-              Annuler
             </button>
           </span>
         </form>
+        <button onClick={annuler} className="btn btn-last" id="annulation" >
+              Annuler
+            </button>
       </div>
     </div>
   );
