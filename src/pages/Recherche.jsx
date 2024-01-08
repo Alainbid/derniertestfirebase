@@ -28,7 +28,6 @@ const Recherche = () => {
   const [note, setNote] = useState("");
   const [nature, setNature] = useState("");
   const [benef, setBenef] = useState("");
-  //const [fin] = useState(new Date("2050/12/30").getTime());
   const [fin] = useState(2555580680000);
   const [showCalendar, setShowCalendar] = useState(false);
   const checkBou = useRef();
@@ -71,7 +70,7 @@ const Recherche = () => {
     // console.log("debut de getjournal", debut);
     conditions.push(endAt(dateDuJour));
     conditions.push(startAt(fin)); //31/12/2050
-    conditions.push(limit(100));
+    conditions.push(limit(200));
 
     //************  QUERY ******************************/
 
@@ -210,7 +209,7 @@ const Recherche = () => {
         openModif={modifLequel}
         onCloseModif={async () => {
           setModifLequel("x");
-          console.log("location", window.location.href);
+         // console.log("location", window.location.href);
           let x = window.location.href;
           await getJournal();
           document.getElementById("recherche-cont").style.display = "none";

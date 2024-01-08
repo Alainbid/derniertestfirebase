@@ -32,18 +32,16 @@ const Pointage = () => {
     try {
       const data = await getDocs(lequery);
       //console.log("data", data.docs);
-      var total = 0.00;
+      var total = 0.0;
       data.forEach((element) => {
-        total += (element.data().somme * 100);
+        total += element.data().somme * 100;
       });
-       setLeTotal (total/100);
+      setLeTotal(total / 100);
 
       setLaListe(data.docs.map((ledoc) => ({ ...ledoc.data(), id: ledoc.id })));
-      
     } catch (error) {
-     // console.log(alert(error));
+      // console.log(alert(error));
       console.log(error);
-
     }
   }, [banque]);
 
@@ -155,8 +153,6 @@ const Pointage = () => {
                     {undoc.menage === true ? " M " : " "}{" "}
                   </td>
 
-                  
-
                   <td
                     id="td-l-pointeur"
                     onClick={(e) => {
@@ -167,8 +163,14 @@ const Pointage = () => {
                       width: 10 + "em",
                       textAlign: "right",
                       color: undoc.somme < 0 ? "red" : "green",
-                      background: "#e9efeba6",
-                      fontWeight: 500
+                      background: "#69c88210",
+                      fontWeight: 500,
+                    }}
+                    onMouseOver={(e) => {
+                      e.target.style.background = "#e0f8c8"; // Change background color on hover
+                    }}
+                    onMouseOut={(e) => {
+                      e.target.style.background = "#69c88210"; // Reset background color on mouse out
                     }}
                   >
                     {conformer(undoc.somme)}
@@ -185,7 +187,7 @@ const Pointage = () => {
                       background: "#69c88210",
                     }}
                   >
-                    {undoc.pointe === false ? "?" : "P"}
+                    {undoc.pointe === false ? "." : "P"}
                   </td>
                   <td
                     id="td-l-point"

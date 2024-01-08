@@ -15,11 +15,10 @@ const Modif = (props: any) => {
   const [menage, setMenage] = useState(true);
   const [pointe, setPointe] = useState(false);
   const [date, setDate] = useState("01/01/2023");
-  var lebenef:string = benef;
-  var lenature:string = nature;
-  var lenote:string = note;
-  var lesomme:string = (somme);
-
+  var lebenef: string = benef;
+  var lenature: string = nature;
+  var lenote: string = note;
+  var lesomme: string = somme;
 
   const getDocument = useCallback(async () => {
     if (props.openModif !== "x") {
@@ -42,34 +41,31 @@ const Modif = (props: any) => {
         alert("document inconnu");
       }
     }
-   
   }, [docRef, props.openModif]);
 
   useEffect(() => {
     getDocument();
   }, [getDocument]);
-
-  const modifBanque = async (e: any) => {
-    let x = e.target.value.toUpperCase();
-    setBanque(x);
-    await updateDoc(docRef, { banque: x });
+ 
+  const modifBanque = async(e: any) => {
+   setBanque(e.target.value)
+    await updateDoc(docRef, { banque: e.target.value });
   };
 
-  const modifSomme =  (e: any) => {
-    lesomme = e.target.value;
+  const modifSomme = (e: any) => {
+    lesomme = e.target.value ;
   };
 
   const modifNature = (e: any) => {
     lenature = e.target.value;
   };
 
-  const modifBenef =  (e: any) => {
-  //  console.log('value',e.target.value);
-  lebenef = e.target.value;
-   // console.log('lebenef',lebenef);
+  const modifBenef = (e: any) => {
+    lebenef = e.target.value;
+    // console.log('lebenef',lebenef);
   };
 
-  const modifNote =  (e: any) => {
+  const modifNote = (e: any) => {
     lenote = e.target.value;
   };
 
@@ -96,7 +92,6 @@ const Modif = (props: any) => {
   const onDelete = async () => {
     await deleteDoc(docRef);
     console.log("docref", docRef);
-
     props.onCloseModif();
   };
 
@@ -105,74 +100,82 @@ const Modif = (props: any) => {
   //******************************************************* */
   return (
     <div>
-   
       <div>
-        <form
-          className="modif-container"
-          id="modif-container"
-        >
+        <form className="modif-container" id="modif-container">
+          {/* <fieldset className="fdset-modif"> */}
+            <div className="mode-container">
+          
+            <label className="modif-banque-radio">
+              <input
+                value="BOURSO"
+                id="BOURSO"
+                type="radio"
+                 checked={banque === "BOURSO"}
+                 onChange={modifBanque}
+              ></input>
+              BoursoBank
+            </label>
+            <label className="modif-banque-radio">
+              <input
+                value="BBVA"
+                id="BBVA"
+                type="radio"
+                 checked={banque === "BBVA"}
+                 onChange={modifBanque}
+              ></input>
+              BBVA
+            </label>
+          </div>
+          {/* </fieldset> */}
+
           <label className="modif-label">
-            Banque
+            Somme
             <input
-              id="banque"
               className="modif-saisie"
               onChange={(event) => {
-                modifBanque(event);
+                modifSomme(event);
               }}
-              type="text"
-              defaultValue={banque}
+              type="number"
+              id="somme"
+              defaultValue={somme}
             ></input>
           </label>
 
-         
-            <label className="modif-label">
-              Somme
-              <input
-                className="modif-saisie"
-                onChange={(event) => {
-                  modifSomme(event);
-                }}
-                type="number"
-                id="somme"
-                defaultValue={somme}
-              ></input>
-            </label>
+          <label className="modif-label">
+            Dépense
+            <input
+              className="modif-saisie"
+              onChange={(event) => modifNature(event)}
+              type="text"
+              id="nature"
+              defaultValue={nature}
+            ></input>
+          </label>
 
-            <label className="modif-label">
-              Dépense
-              <input
-                className="modif-saisie"
-                onChange={(event) => modifNature(event)}
-                type="text"
-                id="nature"
-                defaultValue={nature}
-              ></input>
-            </label>
+          <label className="modif-label">
+            Fournisseur
+            <input
+              className="modif-saisie"
+              onChange={(event) => modifBenef(event)}
+              type="text"
+              id="benef"
+              defaultValue={benef}
+            ></input>
+          </label>
 
-            <label className="modif-label">
-              Fournisseur
-              <input
-                className="modif-saisie"
-                 onChange={(event) => modifBenef(event)}
-                type="text"
-                id="benef"
-                defaultValue={benef}
-              ></input>
-            </label>
-
-            <label className="modif-label">
-              Note
-              <input
-                className="modif-saisie"
-                onChange={(event) => {
-                  modifNote(event);
-                }}
-                autoComplete="off"
-                type="text"
-                id="note"
-                defaultValue={note}
-              ></input>
-            </label>
+          <label className="modif-label">
+            Note
+            <input
+              className="modif-saisie"
+              onChange={(event) => {
+                modifNote(event);
+              }}
+              autoComplete="off"
+              type="text"
+              id="note"
+              defaultValue={note}
+            ></input>
+          </label>
 
           <label className="modif-label">
             Budget
@@ -193,7 +196,6 @@ const Modif = (props: any) => {
               onChange={(event) => {
                 modifPointe(event);
               }}
-             
               type="checkBox"
               id="pointe"
               checked={pointe === true}
@@ -268,11 +270,15 @@ const Modif = (props: any) => {
             type="button"
             // id="btn-cancel"
             className="modif-button"
-            onClick={async() => {
-            await  updateDoc(docRef, { benef: lebenef , nature : lenature , note : lenote , somme : lesomme });
+            onClick={async () => {
+              await updateDoc(docRef, {
+                benef: lebenef,
+                nature: lenature,
+                note: lenote,
+                somme: lesomme,
+              });
               props.onCloseModif();
             }}
-            
           >
             Valider
           </button>

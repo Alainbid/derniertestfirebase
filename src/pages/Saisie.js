@@ -10,7 +10,7 @@ import MajTotalEncours from "../components/MajTotalEncours";
 
 function Saisie() {
   //const journalCollectionRef = collection(db, "journaltest");
-   const journalCollectionRef = collection(db, "cfbjournal");
+  const journalCollectionRef = collection(db, "cfbjournal");
   const [banque, setBanque] = useState("BOURSO");
   const [menage, setMenage] = useState(true);
   const [mode, setMode] = useState("Visa");
@@ -23,11 +23,9 @@ function Saisie() {
   const [showListdepbenef, setShowListdepbenef] = useState("");
   const [natureDepense, setNatureDepense] = useState("");
   const [quiBenef, setQuiBenef] = useState("");
-  const [ setMajourTotal] = useState(false);
-
 
   const onSubmit = async (data) => {
-   // console.log("somme", somme);
+    // console.log("somme", somme);
     if (somme !== "") {
       data.new = false;
       data.numero = "";
@@ -42,12 +40,8 @@ function Saisie() {
       data.benef = quiBenef;
 
       await addDoc(journalCollectionRef, data);
-     // console.log("data", data);
     }
-   // setMajourTotal(true);
     annuler();
-    // setNavHidden(true);
-    // document.getElementById("saisie-container").style.display = 'none';
   };
 
   const handleChange = (e) => {
@@ -63,7 +57,7 @@ function Saisie() {
 
   const modifSomme = (e) => {
     setSomme(parseFloat(e.target.value));
-    document.getElementById("validation").style.display = "revert"
+    document.getElementById("validation").style.display = "revert";
   };
 
   const getData = (ladateh) => {
@@ -75,14 +69,14 @@ function Saisie() {
   };
 
   const annuler = () => {
-     window.location.reload(true);
+    window.location.reload(true);
   };
 
   const validation = () => {
-    document.getElementById("validation").style.display = "none"
-    document.getElementById("annulation").style.display = "none"
-
-  }
+    document.getElementById("validation").style.display = "none";
+    document.getElementById("annulation").style.display = "none";
+    //setMajourTotal(true);
+  };
 
   const choixDepBenef = useCallback(() => {
     document.getElementById("nature").value = natureDepense;
@@ -95,10 +89,7 @@ function Saisie() {
 
   return (
     <div id="app">
-      
-        <MajTotalEncours></MajTotalEncours>
-     
-
+      <MajTotalEncours></MajTotalEncours>
       {navHidden ? <Navbarre></Navbarre> : null}
 
       <h1 id="h1-saisie">Saisie d&apos;écritures</h1>
@@ -110,7 +101,7 @@ function Saisie() {
         open={showListdepbenef}
         onValider={(x, qui) => {
           qui === "benef" ? setQuiBenef(x) : setNatureDepense(x);
-          console.log("x", x);
+        //  console.log("x", x);
         }}
         onClose={() => {
           setShowListdepbenef("");
@@ -205,7 +196,6 @@ function Saisie() {
                 onChange={modifSomme}
                 type="text"
                 id="somme"
-                // required={true}
               ></input>
             </label>
 
@@ -213,7 +203,6 @@ function Saisie() {
               Dépense
               <input
                 className="input-saisie"
-                // {...register("nature")}
                 type="text"
                 id="nature"
                 onClick={(event) => {
@@ -228,7 +217,6 @@ function Saisie() {
               Fournisseur
               <input
                 className="input-saisie"
-                // {...register("benef")}
                 type="text"
                 id="benef"
                 onClick={(event) => {
@@ -269,14 +257,19 @@ function Saisie() {
           </p>
           <span className="btn-fin">
             {" "}
-            <button  onClick = {validation} type="submit" className="btn btn-last"  id="validation" >
+            <button
+              onClick={validation}
+              type="submit"
+              className="btn btn-last"
+              id="validation"
+            >
               Valider
+            </button>
+            <button onClick={annuler} className="btn btn-last" id="annulation">
+              Annuler
             </button>
           </span>
         </form>
-        <button onClick={annuler} className="btn btn-last" id="annulation" >
-              Annuler
-            </button>
       </div>
     </div>
   );
