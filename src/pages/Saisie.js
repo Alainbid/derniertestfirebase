@@ -196,6 +196,8 @@ function Saisie() {
                 onChange={modifSomme}
                 type="text"
                 id="somme"
+                spellCheck='false'
+                autoComplete="off"
               ></input>
             </label>
 
@@ -205,6 +207,8 @@ function Saisie() {
                 className="input-saisie"
                 type="text"
                 id="nature"
+                spellCheck='false'
+                autoComplete="off"
                 onClick={(event) => {
                   event.preventDefault();
                   setListDepBenPosition([event.clientX, event.clientY - 200]);
@@ -219,6 +223,8 @@ function Saisie() {
                 className="input-saisie"
                 type="text"
                 id="benef"
+                spellCheck='false'
+                autoComplete="off"
                 onClick={(event) => {
                   event.preventDefault();
                   setListDepBenPosition([event.clientX, event.clientY - 250]);
