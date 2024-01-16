@@ -86,10 +86,14 @@ function Saisie() {
   useEffect(() => {
     choixDepBenef();
   }, [choixDepBenef]);
+  
 
   return (
     <div id="app">
-      <MajTotalEncours></MajTotalEncours>
+      <div >
+      <MajTotalEncours ></MajTotalEncours>
+      
+      </div>
       {navHidden ? <Navbarre></Navbarre> : null}
 
       <h1 id="h1-saisie">Saisie d&apos;écritures</h1>

@@ -6,8 +6,8 @@ import Recherche from "./pages/Recherche.jsx";
 import Pointage from './pages/Pointage'
 import Saisie from "./pages/Saisie";
 
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import TotalDesBanques from "./components/TotaldesBanques.js";
 
 const App = () => {
   return (
@@ -18,6 +18,8 @@ const App = () => {
         <Route path="/Pointage" element={<Pointage />}></Route>
         <Route path="/Depenses" element={<Depenses />}></Route>
         <Route path="/Fournisseurs" element={<Fournisseurs />}></Route>
+        <Route path="/Banques" element={<TotalDesBanques />}></Route>
+
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>

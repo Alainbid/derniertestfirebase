@@ -13,10 +13,11 @@ import {
 } from "firebase/firestore";
 
 const MajTotalEncours = () => {
+  const [totalEncours, setTotalEncours] = useState(0.0);
   const journalCollectionRef = useMemo(() => collection(db, "cfbjournal"), []);
   // avec useMemo et [] journalcollectionRef ne sera exécutée une seule fois
   const budgetCollectionRef = useMemo(() => collection(db, "budget"), []);
-  const [totalEncours, setTotalEncours] = useState(0.0);
+  
   const ladate = new Date();
   var an = ladate.getFullYear();
   var mois = ladate.getMonth()+1;
@@ -29,13 +30,14 @@ const MajTotalEncours = () => {
  //    console.log("fin", datefin);
 //  critère de recheche dans budget :  anetmois
   const anetmois = (an * 100) + mois ;
-  
 
-  // calcul des dépenses budget du mois
+  
   const getTotal =useCallback(  async () => {
     const debut = new Date(datedebut).getTime(); // en millis
     const fin = new Date(datefin).getTime();
 
+
+// calcul des dépenses budget du mois en cours
     let lequery = query(
       journalCollectionRef,
       where("menage", "==", true),
@@ -47,39 +49,40 @@ const MajTotalEncours = () => {
       var tot = 0.0;
       const data = await getDocs(lequery);
       data.forEach((element) => {   tot += element.data().somme * 100;   });
-      // une fois claculé le total du mois on met à jour dans budget
-   
+      setTotalEncours(tot/100);
+      // une fois claculé le total du mois on met à jour dans "budget"
     } catch (error) {
       alert("Erreur du query  dans la recherche ", error);
       console.log("Erreur du query   ", error);
+      return;
     }
-     setTotalEncours(tot/100)
      
-
    try {
-    //recherche n° id de  ansetmois adns budget
+    //recherche n° id de  'ansetmois' dans "budget"
       var laliste = [];
       const q = query(budgetCollectionRef, where("anetmois", "==", anetmois));
       const data = await getDocs(q);
       laliste =data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
     } catch (error) {
       alert("erreur de connexion budget", error);
       console.log("Erreur ", error);
+      return;
     }
 
 
     try {
-      //mmis à jour du nouveau total dans budget
+      //mis à jour du nouveau total dans "budget/encours"
        const docRef = doc(budgetCollectionRef, laliste[0].id); 
        await updateDoc(docRef, { encours: totalEncours });
- 
      } catch (error) {
        alert("Error dans delete  budget", error);
        console.log("Error", error);
+       return;
      }
    //  console.log("totalEncours",totalEncours);
 
+
+ 
 
   },[anetmois, budgetCollectionRef, journalCollectionRef, datedebut, datefin,totalEncours]);
 
@@ -92,12 +95,13 @@ const MajTotalEncours = () => {
 
   useEffect(() => {
     getTotal();
-    
   },[getTotal]);
 
   return (
     <div >
-    {(totalEncours!== 0) && <ul> dépenses du mois  : {totalEncours}  </ul>}
+     {/* <MajTotalEncours/>  */}
+    <ul> dépenses du mois  : {totalEncours} 
+    </ul>
     </div>
   );
 };

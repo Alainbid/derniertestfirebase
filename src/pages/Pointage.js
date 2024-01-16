@@ -77,6 +77,9 @@ const Pointage = () => {
   return (
     <div>
       <Navbarre />
+      
+    
+
       <p className="h2-pointage">Pointage d&apos;écritures </p>
       <div className="point-container">
         <label className="bourso-container">
@@ -127,7 +130,7 @@ const Pointage = () => {
           <tbody id="ligne" className="tbdy-pointage">
             {laListe.map((undoc, index) => {
               return (
-                <tr id="tr-pointage" key={undoc.id}>
+                <tr id="tr-pointage" key={index}>
                   <td
                     id="td-l-point"
                     style={{ width: 2 + "em", background: "#69c88210" }}

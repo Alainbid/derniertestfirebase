@@ -21,6 +21,9 @@ const Navbarre = () => {
         <NavLink to="/Fournisseurs" className="navlk">
          Fournisseurs
         </NavLink>
+        <NavLink to="/Banques" className="navlk">
+         Banques
+        </NavLink>
       </div>
     </div>
   );

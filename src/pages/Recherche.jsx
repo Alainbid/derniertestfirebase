@@ -70,7 +70,7 @@ const Recherche = () => {
     // console.log("debut de getjournal", debut);
     conditions.push(endAt(dateDuJour));
     conditions.push(startAt(fin)); //31/12/2050
-    conditions.push(limit(200));
+    conditions.push(limit(2000));
 
     //************  QUERY ******************************/
 
@@ -91,6 +91,7 @@ const Recherche = () => {
     } catch (error) {
       alert("Erreur du query  dans la recherche ", error);
       console.log("Erreur du query   ", error);
+      return;
     }
   }, [banque, benef, fin, pointe, nonpointe, menage, nature, somme, note]);
 
