@@ -244,7 +244,8 @@ const Pointage = () => {
                 id="td-l-point"
                 style={{
                   width: 12 + "em",
-                  color: letotal < 0 ? "red" : "green",
+                   color: letotal < 0 ? "red" : "green",
+                 
                   textAlign: "right",
                   fontSize: "1.2rem",
                 }}

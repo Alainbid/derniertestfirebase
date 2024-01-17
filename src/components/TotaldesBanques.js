@@ -14,7 +14,7 @@ const TotalDesBanques = ({ onTotalsChange }) => {
     var  totBso = 0.0;
     
     //************************************************************************ */
-    // limit 10 pour essais
+    // limit 100 pour les essais
      //let lequery = query(journalCollectionRef, where("banque", "!=", ""), limit(100));
    let lequery = query(journalCollectionRef, where("banque", "!=", " "));
    try {
@@ -22,19 +22,16 @@ const TotalDesBanques = ({ onTotalsChange }) => {
 
       const totalDocuments = data.docs.length;
       console.log("totalDocuments",totalDocuments);
-      
-      let currentDocument = 0;
+     
       data.forEach((element) => {
-        currentDocument++;
         // Update loading progress based on the current document
-        setLoading((currentDocument / totalDocuments) * 100);
         if (element.data().banque === "BOURSO") {
           totBso += element.data().somme * 100;
         } else {
           totBbva += element.data().somme * 100;
         }
       });
-      setLoading(false);
+      
       // une fois calculé le total on met à jour dans budget
     } catch (error) {
       alert("Erreur du query  dans la recherche ", error);
@@ -42,27 +39,21 @@ const TotalDesBanques = ({ onTotalsChange }) => {
       setLoading(false);
       return;
    }
-    console.log("totalBouso", totBso / 100);
-    console.log("totalBbva", totBbva / 100);
+    setLoading(false);
+    // console.log("totalBouso", totBso / 100);
+    // console.log("totalBbva", totBbva / 100);
     setTotalBso(totBso / 100);
     setTotalBbva(totBbva / 100);
   };
 
-  //  useEffect(() => {
-  //   getTotalParBanque();
-  //  });
-
-  if(loading) getTotalParBanque();
+  if(loading)  getTotalParBanque();
 
   return (
     <div>
       <Navbarre />
       <div style ={{fontFamily:'verdana',  fontSize : 32, marginTop : 100} }>
-
       {loading ? (
-        <p style  ={{ fontSize : 20}}>loading ...</p>
-          // Display the progress bar while loading
-         // <progress color="red" value={loading} max="100" />
+        <p style  ={{ fontSize : 20}}>Je calcule le total par banque ...</p>
         ) : (
           // Display the results when loading is complete
           <>
@@ -70,7 +61,6 @@ const TotalDesBanques = ({ onTotalsChange }) => {
             <ul> Bbva : {totalBbva.toLocaleString("de", 10)}€ </ul>
           </>
         )}
-
       </div>
     </div>
   );

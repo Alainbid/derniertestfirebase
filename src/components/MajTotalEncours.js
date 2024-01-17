@@ -46,7 +46,7 @@ const MajTotalEncours = () => {
       endAt(debut)
     );
     try {
-      var tot = 0.0;
+      var tot = 0.00;
       const data = await getDocs(lequery);
       data.forEach((element) => {   tot += element.data().somme * 100;   });
       setTotalEncours(tot/100);
@@ -69,7 +69,6 @@ const MajTotalEncours = () => {
       return;
     }
 
-
     try {
       //mis à jour du nouveau total dans "budget/encours"
        const docRef = doc(budgetCollectionRef, laliste[0].id); 
@@ -80,9 +79,6 @@ const MajTotalEncours = () => {
        return;
      }
    //  console.log("totalEncours",totalEncours);
-
-
- 
 
   },[anetmois, budgetCollectionRef, journalCollectionRef, datedebut, datefin,totalEncours]);
 
@@ -98,10 +94,11 @@ const MajTotalEncours = () => {
   },[getTotal]);
 
   return (
-    <div >
-     {/* <MajTotalEncours/>  */}
-    <ul> dépenses du mois  : {totalEncours} 
-    </ul>
+    <div  style={{fontFamily : 'verdana' , fontSize : '1rem', marginTop : 20 }}>
+    <span > dépenses du mois  : </span>
+    <span style= {{ color: totalEncours < 0 ? "red" : "green"}}>
+      {totalEncours.toLocaleString('de',10)} €
+    </span>
     </div>
   );
 };
