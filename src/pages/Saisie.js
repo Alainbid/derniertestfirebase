@@ -26,7 +26,7 @@ function Saisie() {
 
   const onSubmit = async (data) => {
     // console.log("somme", somme);
-    if (somme !== "") {
+    if (somme !== 0.0) {
       data.new = false;
       data.numero = "";
       data.somme = somme;

@@ -59,6 +59,7 @@ const TotalDesBanques = ({ onTotalsChange }) => {
           <>
             <ul style={{ color: "wheat" }}> Bourso : {totalBso.toLocaleString("de", 10)}€ </ul>
             <ul> Bbva : {totalBbva.toLocaleString("de", 10)}€ </ul>
+            <ul  style={{ color: "wheat" , fontSize : "1.3rem"}}> Total : {(totalBbva + totalBso).toLocaleString("de", 10)}€ </ul>
           </>
         )}
       </div>
