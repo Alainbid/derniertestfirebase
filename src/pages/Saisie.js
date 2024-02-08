@@ -26,7 +26,7 @@ function Saisie() {
 
   const onSubmit = async (data) => {
     // console.log("somme", somme);
-    if (somme !== 0.0) {
+    if (somme !== 0.0 && natureDepense !== "" && quiBenef !== ""  ){
       data.new = false;
       data.numero = "";
       data.somme = somme;
@@ -54,6 +54,22 @@ function Saisie() {
   const modifMenage = (e) => {
     e.target.checked ? setMenage(true) : setMenage(false);
   };
+
+  const focusNextInput = (name) => {
+    const inputs = document.querySelectorAll(".input-saisie");
+    const currentIndex = Array.from(inputs).findIndex((input) => input.id === name);
+    if (currentIndex !== -1 && currentIndex < inputs.length - 1) {
+      inputs[currentIndex + 1].focus();
+     // inputs[currentIndex + 1].select();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      focusNextInput(e.target.id);
+  };
+};
 
   const modifSomme = (e) => {
     setSomme(parseFloat(e.target.value));
@@ -195,11 +211,15 @@ function Saisie() {
             <label className="label-saisie">
               Montant
               <input
+
+              preventDefault
                 className="input-saisie"
-                {...register("somme")}
+                onKeyDown={handleKeyDown}
+                // {...register("somme")}
                 onChange={modifSomme}
                 type="text"
                 id="somme"
+                name="somme"
                 spellCheck='false'
                 autoComplete="off"
               ></input>
@@ -208,9 +228,12 @@ function Saisie() {
             <label className="label-saisie">
               Dépense
               <input
+               
+                {...register("nature")}
                 className="input-saisie"
                 type="text"
                 id="nature"
+                name="nature"
                 spellCheck='false'
                 autoComplete="off"
                 onClick={(event) => {
@@ -218,6 +241,11 @@ function Saisie() {
                   setListDepBenPosition([event.clientX, event.clientY - 200]);
                   setShowListdepbenef("depense");
                 }}
+                // onFocus={(event) => {
+                //   event.preventDefault();
+                //   setListDepBenPosition([ 1384,192]);
+                //   setShowListdepbenef("depense");
+                // }}
               ></input>
             </label>
 
@@ -227,6 +255,7 @@ function Saisie() {
                 className="input-saisie"
                 type="text"
                 id="benef"
+                name="benef"
                 spellCheck='false'
                 autoComplete="off"
                 onClick={(event) => {
@@ -234,6 +263,11 @@ function Saisie() {
                   setListDepBenPosition([event.clientX, event.clientY - 250]);
                   setShowListdepbenef("benef");
                 }}
+                // onFocus={(event) => {
+                //   event.preventDefault();
+                //   setListDepBenPosition([1384,192]);
+                //   setShowListdepbenef("benef");
+                // }}
               ></input>
             </label>
 
@@ -244,6 +278,7 @@ function Saisie() {
                 {...register("note")}
                 type="text"
                 id="note"
+                name="note"
                 placeholder="..."
               ></input>
             </label>
