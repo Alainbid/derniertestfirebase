@@ -25,7 +25,7 @@ function Saisie() {
   const [quiBenef, setQuiBenef] = useState("");
 
   const onSubmit = async (data) => {
-    // console.log("somme", somme);
+     
     if (somme !== 0.0 && natureDepense !== "" && quiBenef !== ""  ){
       data.new = false;
       data.numero = "";
@@ -42,6 +42,7 @@ function Saisie() {
       await addDoc(journalCollectionRef, data);
     }
     annuler();
+    // console.log("somme", somme);
   };
 
   const handleChange = (e) => {
@@ -56,12 +57,11 @@ function Saisie() {
   };
 
   const focusNextInput = (name) => {
-    const inputs = document.querySelectorAll(".input-saisie");
-    const currentIndex = Array.from(inputs).findIndex((input) => input.id === name);
-    if (currentIndex !== -1 && currentIndex < inputs.length - 1) {
-      inputs[currentIndex + 1].focus();
-     // inputs[currentIndex + 1].select();
-    }
+    // const inputs = document.querySelectorAll(".input-saisie");
+    // const currentIndex = Array.from(inputs).findIndex((input) => input.id === name);
+    // if (currentIndex !== -1 && currentIndex < inputs.length - 1) {
+    //   inputs[currentIndex + 1].focus();
+//    }
   };
 
   const handleKeyDown = (e) => {
@@ -310,11 +310,12 @@ function Saisie() {
             >
               Valider
             </button>
-            <button onClick={annuler} className="btn btn-last" id="annulation">
-              Annuler
-            </button>
+            
           </span>
         </form>
+        <button onClick={annuler} className="btn btn-last" id="annulation">
+              Annuler
+            </button>
       </div>
     </div>
   );
