@@ -73,6 +73,7 @@ function Saisie() {
 
   const modifSomme = (e) => {
     setSomme(parseFloat(e.target.value));
+    console.log("--------somme","somme",somme);
     document.getElementById("validation").style.display = "revert";
   };
 
@@ -224,6 +225,23 @@ function Saisie() {
                 autoComplete="off"
               ></input>
             </label>
+            
+            <label className="label-saisie">
+              Fournisseur
+              <input
+                className="input-saisie"
+                type="text"
+                id="benef"
+                name="benef"
+                spellCheck='false'
+                autoComplete="off"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setListDepBenPosition([event.clientX, event.clientY - 250]);
+                  setShowListdepbenef("benef");
+                }}
+              ></input>
+            </label>
 
             <label className="label-saisie">
               Dépense
@@ -249,27 +267,6 @@ function Saisie() {
               ></input>
             </label>
 
-            <label className="label-saisie">
-              Fournisseur
-              <input
-                className="input-saisie"
-                type="text"
-                id="benef"
-                name="benef"
-                spellCheck='false'
-                autoComplete="off"
-                onClick={(event) => {
-                  event.preventDefault();
-                  setListDepBenPosition([event.clientX, event.clientY - 250]);
-                  setShowListdepbenef("benef");
-                }}
-                // onFocus={(event) => {
-                //   event.preventDefault();
-                //   setListDepBenPosition([1384,192]);
-                //   setShowListdepbenef("benef");
-                // }}
-              ></input>
-            </label>
 
             <label className="label-saisie">
               Note
