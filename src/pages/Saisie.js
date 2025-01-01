@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback ,useRef} from "react";
 import Navbarre from "../components/Navbar";
 import Calendar from "../components/Calendrier";
 import "../styles/saisie.scss";
@@ -23,6 +23,7 @@ function Saisie() {
   const [showListdepbenef, setShowListdepbenef] = useState("");
   const [natureDepense, setNatureDepense] = useState("");
   const [quiBenef, setQuiBenef] = useState("");
+  const inputFournisseurRef = useRef(null);
 
   const onSubmit = async (data) => {
      
@@ -56,18 +57,19 @@ function Saisie() {
     e.target.checked ? setMenage(true) : setMenage(false);
   };
 
-  const focusNextInput = (name) => {
-    // const inputs = document.querySelectorAll(".input-saisie");
-    // const currentIndex = Array.from(inputs).findIndex((input) => input.id === name);
-    // if (currentIndex !== -1 && currentIndex < inputs.length - 1) {
-    //   inputs[currentIndex + 1].focus();
-//    }
+  const getData = (ladateh) => {
+    document.getElementById("saisie-container").style.display = "revert";
+    console.log("dat", ladateh);
+    setTemps(ladateh);
+    setShowCalendar(false);
+    setNavHidden(false);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      focusNextInput(e.target.id);
+    
+    if (e.key === "Enter") { 
+      inputFournisseurRef.current.focus();
+       e.preventDefault();
   };
 };
 
@@ -75,14 +77,6 @@ function Saisie() {
     setSomme(parseFloat(e.target.value));
     console.log("--------somme","somme",somme);
     document.getElementById("validation").style.display = "revert";
-  };
-
-  const getData = (ladateh) => {
-    document.getElementById("saisie-container").style.display = "revert";
-    console.log("dat", ladateh);
-    setTemps(ladateh);
-    setShowCalendar(false);
-    setNavHidden(false);
   };
 
   const annuler = () => {
@@ -212,11 +206,9 @@ function Saisie() {
             <label className="label-saisie">
               Montant
               <input
-
-              preventDefault
+                preventDefault
                 className="input-saisie"
                 onKeyDown={handleKeyDown}
-                // {...register("somme")}
                 onChange={modifSomme}
                 type="text"
                 id="somme"
@@ -229,15 +221,18 @@ function Saisie() {
             <label className="label-saisie">
               Fournisseur
               <input
+                ref={inputFournisseurRef}
                 className="input-saisie"
                 type="text"
                 id="benef"
                 name="benef"
                 spellCheck='false'
                 autoComplete="off"
-                onClick={(event) => {
+                
+                onFocus={(event) => {
                   event.preventDefault();
-                  setListDepBenPosition([event.clientX, event.clientY - 250]);
+                  const rect = event.target.getBoundingClientRect();
+                  setListDepBenPosition([rect.left + 50, rect.top - 200]); // Adjust offset as needed
                   setShowListdepbenef("benef");
                 }}
               ></input>
@@ -259,11 +254,7 @@ function Saisie() {
                   setListDepBenPosition([event.clientX, event.clientY - 200]);
                   setShowListdepbenef("depense");
                 }}
-                // onFocus={(event) => {
-                //   event.preventDefault();
-                //   setListDepBenPosition([ 1384,192]);
-                //   setShowListdepbenef("depense");
-                // }}
+             
               ></input>
             </label>
 
